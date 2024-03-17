@@ -1,52 +1,26 @@
 package com.example.onlineshop.Product;
 
 import com.example.onlineshop.ProductType.ProductType;
-import jakarta.persistence.*;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 
-
-@Entity
-@Table(name = "products")
-public class Product {
-
-    //product_id,name,price,quantity,type,color,expires_i
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
-
+@Component
+public class ProductDto {
     @NotEmpty
     private String name;
     @NotNull
     private double price;
     @Min(0)
     private int quantity;
-    @JoinColumn(name = "product_type_id")
-    @ManyToOne
     private ProductType productType;
     private String color;
     private LocalDate expires_in;
-
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
 
     public String getName() {
         return name;
@@ -64,7 +38,13 @@ public class Product {
         this.price = price;
     }
 
+    public int getQuantity() {
+        return quantity;
+    }
 
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 
     public ProductType getProductType() {
         return productType;

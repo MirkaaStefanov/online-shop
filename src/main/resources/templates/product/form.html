@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Product Form</title>
+</head>
+<body>
+<div>
+  <header th:insert="header.html"></header>
+</div>
+<h1>Product form</h1>
+
+<form action="#" th:action="@{/product/submit}" th:object="${productDto}" method="post">
+
+  <div>
+    Name:
+    <input type="text" th:field="*{name}"/>
+
+  </div>
+  <div>
+    Price:
+    <input type="number" th:field="*{price}">
+  </div>
+  <div>
+    Quantity:
+    <input type="number" th:field="*{quantity}">
+  </div>
+  <div>
+    Type:
+    <select class="form-select" aria-label="Default select example" th:field="*{productCategory}">
+
+      <option th:each="type : ${allTypes}" th:value="${type.id}" th:text="${type.name}"/>
+
+    </select>
+  </div>
+
+  <div>
+    Color:
+    <input type="text" th:field="*{color}"/>
+
+  </div>
+  <div>
+    Expiration date:
+    <input type="date" th:field="*{expires_in}"/>
+
+  </div>
+  <button  class="btn btn-primary" th:value="submit">Save</button>
+
+
+</form>
+
+
+</body>
+</html>
