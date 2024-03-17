@@ -89,4 +89,5 @@ public class Product {
     public void setExpires_in(LocalDate expires_in) {
         this.expires_in = expires_in;
     }
+
 }
