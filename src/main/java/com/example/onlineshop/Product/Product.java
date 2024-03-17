@@ -24,7 +24,7 @@ public class Product {
     @NotNull
     private double price;
     @Min(0)
-    private int quality;
+    private int quantity;
     @JoinColumn(name = "product_type_id")
     @ManyToOne
     private ProductType productType;
@@ -55,12 +55,12 @@ public class Product {
         this.price = price;
     }
 
-    public int getQuality() {
-        return quality;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setQuality(int quality) {
-        this.quality = quality;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public ProductType getProductType() {
