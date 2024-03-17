@@ -13,7 +13,7 @@ import java.util.Date;
 @Table(name = "products")
 public class Product {
 
-    //product_id,name,price,quantity,type,color,expires_in
+    //product_id,name,price,quantity,type,color,expires_i
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
