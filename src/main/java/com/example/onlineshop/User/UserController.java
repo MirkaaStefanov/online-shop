@@ -1,7 +1,5 @@
 package com.example.onlineshop.User;
 
-import com.example.onlineshop.Dto.UserDto;
-import com.example.onlineshop.Mapper.UserMapper;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
