@@ -1,4 +1,4 @@
-package com.example.activitiesplatform.Dto;
+package com.example.onlineshop.Dto;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;

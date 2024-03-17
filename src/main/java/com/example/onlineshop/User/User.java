@@ -1,4 +1,4 @@
-package com.example.activitiesplatform.User;
+package com.example.onlineshop.User;
 
 import jakarta.persistence.*;
 

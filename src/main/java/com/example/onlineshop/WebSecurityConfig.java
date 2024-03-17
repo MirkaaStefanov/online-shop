@@ -1,6 +1,6 @@
-package com.example.activitiesplatform;
+package com.example.onlineshop;
 
-import com.example.activitiesplatform.User.UserDetailsServiceImpl;
+import com.example.onlineshop.User.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

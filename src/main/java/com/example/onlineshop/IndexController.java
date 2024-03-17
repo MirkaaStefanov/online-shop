@@ -1,6 +1,5 @@
-package com.example.activitiesplatform;
+package com.example.onlineshop;
 
-import com.example.activitiesplatform.Activity.ActivityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

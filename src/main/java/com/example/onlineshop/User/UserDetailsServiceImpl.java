@@ -1,4 +1,4 @@
-package com.example.activitiesplatform.User;
+package com.example.onlineshop.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -1,8 +1,8 @@
-package com.example.activitiesplatform.Mapper;
+package com.example.onlineshop.Mapper;
 
-import com.example.activitiesplatform.Config.BCrypt;
-import com.example.activitiesplatform.Dto.UserDto;
-import com.example.activitiesplatform.User.User;
+import com.example.onlineshop.Config.BCrypt;
+import com.example.onlineshop.Dto.UserDto;
+import com.example.onlineshop.User.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

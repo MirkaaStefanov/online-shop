@@ -1,6 +1,6 @@
-package com.example.activitiesplatform.User;
+package com.example.onlineshop.User;
 
-import com.example.activitiesplatform.User.User;
+import com.example.onlineshop.User.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 

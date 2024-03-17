@@ -1,4 +1,4 @@
-package com.example.activitiesplatform.Config;
+package com.example.onlineshop.Config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
