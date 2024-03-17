@@ -1,12 +1,12 @@
 package com.example.onlineshop.Product;
 
+import ProductType.ProductType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 
 @Entity
@@ -25,7 +25,8 @@ public class Product {
     private double price;
     @Min(0)
     private int quality;
-    @NotNull
+    @JoinColumn(name = "product_type_id")
+    @ManyToOne
     private ProductType productType;
     private String color;
     private LocalDate expires_in;
@@ -85,5 +86,4 @@ public class Product {
     public void setExpires_in(LocalDate expires_in) {
         this.expires_in = expires_in;
     }
-
 }
