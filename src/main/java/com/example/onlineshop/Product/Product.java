@@ -1,6 +1,6 @@
 package com.example.onlineshop.Product;
 
-import ProductType.ProductType;
+import com.example.onlineshop.ProductType.ProductType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;

@@ -1,4 +1,4 @@
-package ProductType;
+package com.example.onlineshop.ProductType;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
