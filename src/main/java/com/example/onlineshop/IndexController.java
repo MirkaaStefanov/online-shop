@@ -10,8 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 public class IndexController {
 
     @GetMapping("/")
-    public String allActivitiesHome(){
-
+    public String index(){
         return "index";
     }
 
