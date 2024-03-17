@@ -17,7 +17,7 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Integer productId;
 
     @NotEmpty
     private String name;
@@ -31,11 +31,11 @@ public class Product {
     private LocalDate expires_in;
 
     public Integer getId() {
-        return id;
+        return productId;
     }
 
     public void setId(Integer id) {
-        this.id = id;
+        this.productId = productId;
     }
 
     public String getName() {
