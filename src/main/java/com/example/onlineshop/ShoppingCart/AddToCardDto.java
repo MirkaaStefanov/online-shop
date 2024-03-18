@@ -1,4 +1,4 @@
-package com.example.onlineshop.Dto;
+package com.example.onlineshop.ShoppingCart;
 
 import org.springframework.stereotype.Component;
 

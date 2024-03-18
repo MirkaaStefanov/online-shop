@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 
 @Entity
@@ -29,7 +30,7 @@ public class Product {
     @ManyToOne
     private ProductType productType;
     private String color;
-    private LocalDate expires_in;
+    private Date expires_in;
 
 
     public Integer getId() {
@@ -82,12 +83,11 @@ public class Product {
         this.color = color;
     }
 
-    public LocalDate getExpires_in() {
+    public Date getExpires_in() {
         return expires_in;
     }
 
-    public void setExpires_in(LocalDate expires_in) {
+    public void setExpires_in(Date expires_in) {
         this.expires_in = expires_in;
     }
-
 }

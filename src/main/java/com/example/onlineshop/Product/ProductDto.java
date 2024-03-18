@@ -6,9 +6,11 @@ import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 @Component
 public class ProductDto {
@@ -20,7 +22,8 @@ public class ProductDto {
     private int quantity;
     private ProductType productType;
     private String color;
-    private LocalDate expires_in;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date expires_in;
 
     public String getName() {
         return name;
@@ -62,11 +65,11 @@ public class ProductDto {
         this.color = color;
     }
 
-    public LocalDate getExpires_in() {
+    public Date getExpires_in() {
         return expires_in;
     }
 
-    public void setExpires_in(LocalDate expires_in) {
+    public void setExpires_in(Date expires_in) {
         this.expires_in = expires_in;
     }
 }

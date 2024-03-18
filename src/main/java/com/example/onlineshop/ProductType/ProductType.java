@@ -9,23 +9,23 @@ public class ProductType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer productTypeId;
+    private Integer id;
     @NotEmpty
-    private String typeName;
+    private String name;
 
-    public Integer getProductTypeId() {
-        return productTypeId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setProductTypeId(Integer productTypeId) {
-        this.productTypeId = productTypeId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public String getTypeName() {
-        return typeName;
+    public String getName() {
+        return name;
     }
 
-    public void setTypeName(String typeName) {
-        this.typeName = typeName;
+    public void setName(String name) {
+        this.name = name;
     }
 }

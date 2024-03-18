@@ -17,10 +17,17 @@ public class User {
     private String role;
     private boolean enabled;
     private int price;
-
     @OneToOne
     @JoinColumn(name = "shopping_cart_id")
     private ShoppingCart shoppingCart;
+
+    public ShoppingCart getShoppingCart() {
+        return shoppingCart;
+    }
+
+    public void setShoppingCart(ShoppingCart shoppingCart) {
+        this.shoppingCart = shoppingCart;
+    }
 
     public Integer getId() {
         return id;
@@ -76,13 +83,5 @@ public class User {
 
     public void setPrice(int price) {
         this.price = price;
-    }
-
-    public ShoppingCart getShoppingCart() {
-        return shoppingCart;
-    }
-
-    public void setShoppingCart(ShoppingCart shoppingCart) {
-        this.shoppingCart = shoppingCart;
     }
 }

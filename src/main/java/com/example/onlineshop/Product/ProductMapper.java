@@ -4,7 +4,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ProductMapper {
-
     public Product toEntity(ProductDto productDto) {
         Product product = new Product();
         product.setName(productDto.getName());
@@ -12,6 +11,28 @@ public class ProductMapper {
         product.setColor(productDto.getColor());
         product.setPrice(productDto.getPrice());
         product.setExpires_in(productDto.getExpires_in());
+        product.setQuantity(productDto.getQuantity());
+
+        return product;
+    }
+
+    public Product toFoodEntity(ProductDto productDto) {
+        Product product = new Product();
+        product.setName(productDto.getName());
+        product.setProductType(productDto.getProductType());
+        product.setPrice(productDto.getPrice());
+        product.setExpires_in(productDto.getExpires_in());
+        product.setQuantity(productDto.getQuantity());
+
+        return product;
+    }
+
+    public Product toRailingOrAccessoryEntity(ProductDto productDto) {
+        Product product = new Product();
+        product.setName(productDto.getName());
+        product.setProductType(productDto.getProductType());
+        product.setColor(productDto.getColor());
+        product.setPrice(productDto.getPrice());
         product.setQuantity(productDto.getQuantity());
 
         return product;

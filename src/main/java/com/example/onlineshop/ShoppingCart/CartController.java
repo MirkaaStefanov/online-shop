@@ -1,6 +1,5 @@
 package com.example.onlineshop.ShoppingCart;
 
-import com.example.onlineshop.Dto.AddToCardDto;
 import com.example.onlineshop.Product.Product;
 import com.example.onlineshop.Product.ProductRepository;
 import com.example.onlineshop.User.User;

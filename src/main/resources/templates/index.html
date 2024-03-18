@@ -1,10 +1,125 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+
+        .courses-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .course-box {
+            display: flex;
+            align-items: center;
+            width: 600px;
+            padding: 20px;
+            margin: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            background-color: #fff;
+        }
+
+        .course-image {
+            width: 150px;
+            margin-right: 20px;
+            border-radius: 5px;
+        }
+
+        .course-details {
+            flex: 1;
+        }
+
+        .course-details h1 {
+            margin-top: 0;
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        .course-details p {
+            color: #666;
+        }
+
+        .view-button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .view-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Style for success message */
+        .success-message {
+            display: none;
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+            padding: 10px;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+
+    </style>
+
+    <script>
+        // Function to show the success message
+        function showSuccessMessage() {
+            document.getElementById('successMessage').style.display = 'block';
+        }
+
+        // Function to hide the success message
+        function hideSuccessMessage() {
+            document.getElementById('successMessage').style.display = 'none';
+        }
+
+        // Show the success message after a delay (e.g., 4 seconds)
+        setTimeout(showSuccessMessage, 0);
+
+        // Hide the success message after another delay (e.g., 4 seconds)
+        setTimeout(hideSuccessMessage, 3000);
+
+    </script>
+
 </head>
 <body>
+<header th:insert="header.html"/>
+
+<div th:if="${successfulAddedActivity}">
+    <div id="successMessage" class="success-message" th:if="${successfulAddedActivity}" style="color: green;">
+        <p th:text="${successfulAddedActivity}"></p>
+    </div>
+</div>
+
+
+<div class="courses-container" th:each="activity : ${allActivities}">
+    <div class="course-box">
+        <img class="course-image" th:src="@{'/activity/image/' + ${activity.id}}" width="150"/>
+        <div class="course-details">
+            <h1 th:text="${activity.name}"></h1>
+            <p th:text="${activity.description}"></p>
+            <form action="#" th:action="@{/activity/show}" method="get">
+                <input type="hidden" name="activityId" th:value="${activity.id}"/>
+                <button class="view-button" type="submit">View Activity</button>
+            </form>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>
