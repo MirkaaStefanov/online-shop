@@ -32,26 +32,4 @@ public class UserMapper {
         return user;
     }
 
-    public User toEmployeeEntity(UserDto userDto) {
-        User user = new User();
-        Employee employee = new Employee();
-
-        ShoppingCart shoppingCart = new ShoppingCart();
-        user.setUsername(userDto.getUsername());
-        user.setPassword(bCrypt.passwordEncoder().encode(userDto.getPassword()));
-        user.setEmail(userDto.getEmail());
-        user.setEnabled(true);
-        user.setRole("Employee");
-        shoppingCartRepository.save(shoppingCart);
-        user.setShoppingCart(shoppingCart);
-
-        employee.setFirstName("Mirkaan");
-
-
-        employeeRepository.save(employee);
-
-
-        return user;
-    }
-
 }
