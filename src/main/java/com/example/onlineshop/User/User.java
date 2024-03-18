@@ -17,9 +17,11 @@ public class User {
     private String role;
     private boolean enabled;
     private int price;
+
     @OneToOne
     @JoinColumn(name = "shopping_cart_id")
     private ShoppingCart shoppingCart;
+
 
     public ShoppingCart getShoppingCart() {
         return shoppingCart;

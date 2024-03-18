@@ -1,5 +1,6 @@
 package com.example.onlineshop.Employee;
 
+import com.example.onlineshop.User.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -13,10 +14,14 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotEmpty
+   // @NotEmpty
     private String firstName;
-    @NotEmpty
+  //  @NotEmpty
     private String lastName;
+   // @NotNull
+    private int employeeAge;
+    //@NotNull
+    private double salary;
 
     public Integer getId() {
         return id;
@@ -58,8 +63,4 @@ public class Employee {
         this.salary = salary;
     }
 
-    @NotNull
-    private int employeeAge;
-    @NotNull
-    private double salary;
 }

@@ -5,6 +5,8 @@ import com.example.onlineshop.Product.ProductRepository;
 import com.example.onlineshop.User.User;
 import com.example.onlineshop.User.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +26,9 @@ public class CartController {
     @PostMapping("/addToCart")
     public String addToCart(@ModelAttribute AddToCardDto addToCardDto) {
 
-        User user = userRepository.findById(addToCardDto.getCustomerId()).get();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userRepository.getUserByUsername(username);
 
         Product product = productRepository.findById(addToCardDto.getProductId()).get();
 
@@ -37,12 +41,14 @@ public class CartController {
 
         shoppingCartRepository.save(user.getShoppingCart());
 
-        return "index";
+        return "redirect:/";
     }
 
-    @GetMapping("/show")
-    public String showCart(@RequestParam("principalId")Integer principalId, Model model){
-        User user = userRepository.findById(principalId).get();
+    @GetMapping("/view")
+    public String showCart(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userRepository.getUserByUsername(username);
         model.addAttribute("shoppingCart", user.getShoppingCart());
         return "show-cart";
     }

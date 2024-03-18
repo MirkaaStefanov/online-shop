@@ -18,11 +18,6 @@ public class UserController {
     @Autowired
     private UserMapper mapper;
 
-    @GetMapping("/login")
-    public String login() {
-        return "user/login";
-    }
-
     @GetMapping("/registration/add")
     public String registrationForm(Model model) {
         model.addAttribute("userDto", new UserDto());
@@ -60,5 +55,8 @@ public class UserController {
         return "user/profile";
     }
 
-
+    @GetMapping("/login")
+    public String login() {
+        return "user/login";
+    }
 }

@@ -2,6 +2,7 @@ package com.example.onlineshop.Product;
 
 import com.example.onlineshop.ProductType.ProductType;
 import com.example.onlineshop.ProductType.ProductTypeRepository;
+import com.example.onlineshop.ShoppingCart.AddToCardDto;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -63,8 +64,9 @@ public class ProductController {
         }
 
         productRepository.save(product);
-        redirectAttributes.addFlashAttribute("addedNewProduct", "You added successfully new product !");
+        redirectAttributes.addFlashAttribute("successfulAddedProduct", "You added successfully new product !");
         return "redirect:/";
     }
+
 
 }

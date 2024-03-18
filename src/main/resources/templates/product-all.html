@@ -108,7 +108,8 @@
                     </div>
                     <div class="modal-body">
                         <form action="#" th:action="@{/cart/addToCart}" th:object="${addToCardDto}" method="post">
-                            <input type="hidden" name="productId" value="1" th:value="${product.id}" min="1"/>
+                            <input type="hidden" name="customerId" th:value="${#authentication.principal.id}"/>
+                            <input type="hidden" name="productId" th:value="1" th:value="${product.id}"/>
                             <input type="number" th:field="*{quantity}"/>
                             <button class="btn btn-primary" type="submit">Add to cart</button>
                         </form>

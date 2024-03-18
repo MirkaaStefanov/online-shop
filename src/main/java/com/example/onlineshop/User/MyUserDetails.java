@@ -29,7 +29,9 @@ public class MyUserDetails implements UserDetails {
     public String getUsername() {
         return user.getUsername();
     }
-
+    public Integer getId() {
+        return user.getId();
+    }
     public String getEmail() {
         return this.user.getEmail();
     }
