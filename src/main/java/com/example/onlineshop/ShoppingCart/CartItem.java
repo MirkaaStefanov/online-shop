@@ -44,8 +44,8 @@ public class CartItem {
 
     public double getPrice() {
         double price=this.getQuantity()*product.getPrice();
-
-        return this.price=price;
+        this.price = price;
+        return this.price;
     }
 
     public void setPrice(double price) {

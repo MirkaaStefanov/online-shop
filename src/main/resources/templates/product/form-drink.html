@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Drink Form</title>
+  <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-transform: capitalize; /* Make labels and placeholders start with uppercase */
+        }
+
+        .form-container h1 {
+            margin-bottom: 20px;
+            color: #333;
+            text-transform: uppercase; /* Make headings uppercase */
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            font-size: 16px; /* Increase font size for labels */
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: calc(100% - 22px); /* Adjust width to accommodate pseudo-element */
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-top: 5px;
+        }
+
+
+        .form-group button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 12px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .form-group button:hover {
+            background-color: #45a049;
+        }
+
+        .form-group span {
+            color: red;
+            font-size: 12px;
+            display: block;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+<header th:insert="header.html"></header>
+
+<div class="form-container">
+  <h1>Drink form</h1>
+
+  <form action="#" th:action="@{/product/submit/drink}" th:object="${productDto}" method="post" id="productForm">
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input type="text" id="name" th:field="*{name}" required>
+      <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+    </div>
+    <div class="form-group">
+      <label for="price">Price:</label>
+      <input type="number" id="price" th:field="*{price}" step="0.01" required>
+      <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span>
+    </div>
+    <div class="form-group">
+      <label for="price">Quantity:</label>
+      <input type="number" id="quantity" th:field="*{quantity}" required>
+      <span th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}"></span>
+    </div>
+    <div class="form-group">
+      <label for="expires_in">Expiration date:</label>
+      <input type="date" id="expires_in" th:field="*{expires_in}" required>
+      <span th:if="${#fields.hasErrors('expires_in')}" th:errors="*{expires_in}"></span>
+    </div>
+    <div class="form-group">
+      <label for="image">Image:</label>
+      <input type="file" id="image" name="image">
+      <span th:if="${#fields.hasErrors('image')}" th:errors="*{image}"></span>
+    </div>
+
+    <div class="form-group">
+      <button type="submit">Add Drink</button>
+    </div>
+  </form>
+</div>
+
+</body>
+</html>

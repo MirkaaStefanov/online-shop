@@ -2,6 +2,7 @@ package com.example.onlineshop.Product;
 
 import com.example.onlineshop.ProductType.ProductType;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
@@ -24,6 +25,7 @@ public class ProductDto {
     private String color;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date expires_in;
+    private byte[] image;
 
     public String getName() {
         return name;
@@ -71,5 +73,13 @@ public class ProductDto {
 
     public void setExpires_in(Date expires_in) {
         this.expires_in = expires_in;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 }

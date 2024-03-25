@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Shopping Cart</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Header styles */
+        .navbar {
+            margin-bottom: 20px; /* Add margin to separate header from content */
+        }
+
+        /* Cart container styles */
+        .cart-container {
+            margin-top: 20px; /* Add margin to separate cart container from header */
+            width: 80%;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Rest of your CSS styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding-top: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .cart-item {
+            border-bottom: 1px solid #eee;
+            padding: 20px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .cart-item img {
+            max-width: 100px;
+            margin-right: 20px;
+        }
+
+        .item-details {
+            flex-grow: 1;
+        }
+
+        .item-details h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .item-details p {
+            margin: 0;
+        }
+
+        .remove-button {
+            color: #007bff;
+            cursor: pointer;
+        }
+
+        .remove-button:hover {
+            text-decoration: underline;
+        }
+
+        .cart-summary {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .cart-summary h2 {
+            margin-bottom: 20px;
+        }
+
+        .proceed-button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .proceed-button:hover {
+            background-color: #0056b3;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<header th:insert="header.html"/>
+
+<div class="container cart-container">
+    <h1>Your Shopping Cart</h1>
+    <div class="cart-items" th:each="item : ${shoppingCart.items}">
+        <div class="cart-item">
+            <img th:src="@{/product1.jpg}" alt="Product 1">
+            <div class="item-details">
+                <h3 th:text="${item.product.name}"/>
+                <p th:text="'Price: ' + ${item.price}"/>
+                <p th:text="'Quantity: ' + ${item.quantity}"/>
+                <form action="#" th:action="@{/cart/delete}" method="post">
+                    <input type="hidden" name="itemId" th:value="${item.id}">
+                    <button type="submit" class="remove-button">Remove</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="cart-summary">
+        <h2>Cart Summary</h2>
+        <p th:text="'Total Items: ' + ${shoppingCart.itemsNumber}"/>
+        <p th:text="'Total Price: ' + ${shoppingCart.totalPrice}"/>
+        <a href="#" class="proceed-button">Proceed to Checkout</a>
+    </div>
+</div>
+</body>
+</html>

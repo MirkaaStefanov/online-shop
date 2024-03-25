@@ -1,123 +1,107 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:width="http://www.w3.org/1999/xhtml"
-      xmlns:height="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css">
     <style>
-
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            text-align: center;
-        }
-
-        .courses-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-        }
-
-        .course-box {
-            display: flex;
-            align-items: center;
-            width: 600px;
-            padding: 20px;
-            margin: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-            text-align: left;
+        .filter-section {
             background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
         }
 
-        .course-image {
-            width: 100px; /* Adjust the width as needed */
-            height: auto; /* Maintain aspect ratio */
-            margin-right: 10px; /* Optional: Add some spacing */
-            border-radius: 5px; /* Optional: Add rounded corners */
+        .product-card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
         }
 
-        .course-details {
-            flex: 1;
+        .product-image {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
         }
 
-        .course-details h1 {
-            margin-top: 0;
-            font-size: 1.5rem;
+        .product-title {
+            font-size: 18px;
+            font-weight: bold;
             color: #333;
+            margin-bottom: 10px;
         }
 
-        .course-details p {
+        .product-type {
             color: #666;
+            margin-bottom: 10px;
         }
 
-        .view-button {
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            padding: 10px 20px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .view-button:hover {
-            background-color: #0056b3;
-        }
-
-        /* Style for success message */
-        .success-message {
-            display: none;
-            background-color: #d4edda;
-            border-color: #c3e6cb;
-            color: #155724;
-            padding: 10px;
-            margin-top: 20px;
-            border-radius: 5px;
+        .product-price {
+            font-size: 16px;
+            color: #007bff;
+            margin-bottom: 20px;
         }
     </style>
 </head>
 <body>
-<header th:insert="header.html"/>
 
-<div th:if="${successfulAddedProduct}">
-    <div id="successMessage" class="success-message" th:if="${successfulAddedProduct}" style="color: green;">
-        <p th:text="${successfulAddedActivity}"></p>
-    </div>
-</div>
+<header th:insert="header.html"></header>
 
-<div class="card" th:each="product : ${allProducts}">
-    <img class="course-image"  alt="Product Image" /> <!-- Adjust src attribute accordingly -->
+<div class="container">
+    <div class="row">
+        <!-- Filter Section -->
+        <div class="col-md-2"> <!-- 1/5 width on medium-sized screens and above -->
+            <div class="filter-section">
+                <!-- Filter options here -->
+                <h2>Filter Section</h2>
 
-    <div class="card-body">
-        <h5 class="card-title" th:text="${product.name}"/>
-        <p class="card-text" th:text="${product.productType.name}"/>
-        <p class="card-text" th:text="${product.price}"/>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" th:attr="data-bs-target='#exampleModal'+${product.id}">
-            Add to Cart
-        </button>
-
-        <div class="modal fade" th:id="'exampleModal'+${product.id}" tabindex="-1" aria-labelledby="exampleModalLabel"
-             aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel" th:text="${product.name}"></h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+        </div>
+        <!-- Products Section -->
+        <div class="col-md-10"> <!-- 4/5 width on medium-sized screens and above -->
+            <div class="row row-cols-1 row-cols-md-2 g-4">
+                <!-- Product Cards -->
+                <div class="col" th:each="product : ${allProducts}">
+                    <div class="product-card">
+                        <img th:src="'data:img/png;base64,' + ${product.image}" alt="Product Image" class="product-image">
+                        <div class="product-details">
+                            <h5 class="product-title" th:text="${product.name}">Product Name</h5>
+                            <p class="product-type" th:text="${product.productType.name}">Product Type</p>
+                            <p class="product-price" th:text="'Price: ' + ${product.price} + ' BGN'">Price</p>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" th:attr="data-bs-target='#exampleModal'+${product.id}">
+                                Add to Cart
+                            </button>
+                        </div>
                     </div>
-                    <div class="modal-body">
-                        <form action="#" th:action="@{/cart/addToCart}" th:object="${addToCardDto}" method="post">
-                            <input type="hidden" name="productId" th:value="${product.id}" />
-                            <input type="number" value="1" th:field="*{quantity}" />
-                            <button class="btn btn-primary" type="submit">Add to cart</button>
-                        </form>
+                    <!-- Modal -->
+                    <div class="modal fade" th:id="'exampleModal'+${product.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" th:text="${product.name}">Modal title</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <img class="product-image" th:src="'data:img/png;base64,' + ${product.image}" alt="Product Image">
+                                    <form action="#" th:action="@{/cart/addToCart}" th:object="${addToCardDto}" method="post">
+                                        <input type="hidden" name="productId" th:value="${product.id}">
+                                        <input type="number" min="1" th:field="*{quantity}">
+                                        <button class="btn btn-primary" type="submit">Add to cart</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -11,13 +11,6 @@
             background-color: #f4f4f4;
         }
 
-        header {
-            background-color: #333;
-            color: #fff;
-            padding: 10px;
-            text-align: center;
-        }
-
         .profile-container {
             max-width: 600px;
             margin: 20px auto;
@@ -78,11 +71,12 @@
 
 <body>
 <header>
-    <h1>User Profile</h1>
     <header th:insert="header.html"></header>
 </header>
 
+
 <div class="profile-container">
+    <h1>User Profile</h1>
     <img class="profile-image" src="profile-picture.jpg" alt="Profile Picture">
     <div class="user-info">
         <h1 sec:authentication="principal.username"></h1>

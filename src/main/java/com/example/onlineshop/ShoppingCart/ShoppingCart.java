@@ -33,9 +33,10 @@ public class ShoppingCart {
     public double getTotalPrice() {
         double sum=0.0;
         for (CartItem item : this.items) {
-            sum +=item.getProduct().getPrice();
+            sum +=(item.getProduct().getPrice())*item.getQuantity();
         }
-        return this.totalPrice=sum;
+        this.totalPrice=sum;
+        return this.totalPrice;
     }
 
     public void setTotalPrice(double totalPrice) {
@@ -43,7 +44,8 @@ public class ShoppingCart {
     }
 
     public int getItemsNumber() {
-        return this.items.size();
+        this.itemsNumber = this.items.size();
+        return itemsNumber;
     }
 
     public void setItemsNumber(int itemsNumber) {

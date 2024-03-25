@@ -5,14 +5,15 @@ import com.example.onlineshop.ProductType.ProductTypeRepository;
 import com.example.onlineshop.ShoppingCart.AddToCardDto;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/product")
@@ -26,47 +27,123 @@ public class ProductController {
     @Autowired
     private ProductTypeRepository productTypeRepository;
 
-    @GetMapping("/add")
-    public String productForm(Model model) {
+    @GetMapping("/add/food")
+    public String foodForm(Model model) {
         model.addAttribute("productDto", new ProductDto());
-        model.addAttribute("allTypes", productTypeRepository.findAll());
-        return "product/form";
+        return "product/form-food";
     }
 
-    @PostMapping("/submit")
-    public String submitProduct(@Valid @ModelAttribute ProductDto productDto, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
-        Product product;
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("allTypes", productTypeRepository.findAll());
-            return "product/form";
+    @PostMapping("/submit/food")
+    public String addFood(@Valid @ModelAttribute ProductDto productDto, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes){
+        if(bindingResult.hasErrors()){
+            return "product/form-food";
         }
-        String productType = productDto.getProductType().getName();
-        if (productType.equalsIgnoreCase("food")) {
-            if (productDto.getExpires_in() == null) {
-                model.addAttribute("expiresDate", "You are adding food, you must enter expiration date");
-                model.addAttribute("allTypes", productTypeRepository.findAll());
-                return "product/form";
-            } else {
-                product = productMapper.toFoodEntity(productDto);
-            }
-        } else if (productType.equalsIgnoreCase("railing")) {
-            if (productDto.getColor() == null) {
-                model.addAttribute("color", "You are adding railing, you must enter color");
-                model.addAttribute("allTypes", productTypeRepository.findAll());
-                return "product/form";
-
-
-            } else {
-                product = productMapper.toRailingOrAccessoryEntity(productDto);
-            }
-        } else {
-            product = productMapper.toEntity(productDto);
+        if(productDto.getExpires_in()==null){
+            return "product/form-food";
         }
+        Product product = productMapper.toFoodEntity(productDto);
+        productRepository.save(product);
+        redirectAttributes.addFlashAttribute("successfulAddedProduct", "You added successfully new food !");
+        return "redirect:/";
+    }
 
+    @GetMapping("/add/drink")
+    public String drinkForm(Model model) {
+        model.addAttribute("productDto", new ProductDto());
+        return "product/form-drink";
+    }
+
+    @PostMapping("/submit/drink")
+    public String addDrink(@Valid @ModelAttribute ProductDto productDto, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes){
+        if(bindingResult.hasErrors()){
+            return "product/form-drink";
+        }
+        if(productDto.getExpires_in()==null){
+            return "product/form-drink";
+        }
+        Product product = productMapper.toDrinkEntity(productDto);
+        productRepository.save(product);
+        redirectAttributes.addFlashAttribute("successfulAddedProduct", "You added successfully new drink !");
+        return "redirect:/";
+    }
+    @GetMapping("/add/sanitary")
+    public String sanitaryForm(Model model) {
+        model.addAttribute("productDto", new ProductDto());
+        return "product/form-sanitary";
+    }
+
+    @PostMapping("/submit/sanitary")
+    public String addSanitary(@Valid @ModelAttribute ProductDto productDto, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes){
+        if(bindingResult.hasErrors()){
+            return "product/form-sanitary";
+        }
+        if(productDto.getColor()==null){
+            return "product/form-sanitary";
+        }
+        Product product = productMapper.toSanitaryEntity(productDto);
+        productRepository.save(product);
+        redirectAttributes.addFlashAttribute("successfulAddedProduct", "You added successfully new sanitary !");
+        return "redirect:/";
+    }
+    @GetMapping("/add/railing")
+    public String railingForm(Model model) {
+        model.addAttribute("productDto", new ProductDto());
+        return "product/form-railing";
+    }
+
+    @PostMapping("/submit/railing")
+    public String addRailing(@Valid @ModelAttribute ProductDto productDto, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes){
+        if(bindingResult.hasErrors()){
+            return "product/form-railing";
+        }
+        if(productDto.getColor()==null){
+            return "product/form-railing";
+        }
+        Product product = productMapper.toRailingEntity(productDto);
+        productRepository.save(product);
+        redirectAttributes.addFlashAttribute("successfulAddedProduct", "You added successfully new railing !");
+        return "redirect:/";
+    }
+    @GetMapping("/add/accessories")
+    public String accessoriesForm(Model model) {
+        model.addAttribute("productDto", new ProductDto());
+        return "product/form-accessories";
+    }
+
+    @PostMapping("/submit/accessories")
+    public String addAccessories(@Valid @ModelAttribute ProductDto productDto, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes){
+        if(bindingResult.hasErrors()){
+            return "product/form-accessories";
+        }
+        if(productDto.getColor()==null){
+            return "product/form-accessories";
+        }
+        Product product = productMapper.toAccessoryEntity(productDto);
+        productRepository.save(product);
+        redirectAttributes.addFlashAttribute("successfulAddedProduct", "You added successfully new accessories !");
+        return "redirect:/";
+    }
+    @GetMapping("/add/others")
+    public String othersForm(Model model) {
+        model.addAttribute("productDto", new ProductDto());
+        return "product/form-others";
+    }
+
+    @PostMapping("/submit/others")
+    public String addOthers(@Valid @ModelAttribute ProductDto productDto, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes){
+        if(bindingResult.hasErrors()){
+            return "product/form-others";
+        }
+        Product product = productMapper.toOthersEntity(productDto);
         productRepository.save(product);
         redirectAttributes.addFlashAttribute("successfulAddedProduct", "You added successfully new product !");
         return "redirect:/";
     }
 
-
+    @GetMapping("/search")
+    public String showSearchedProduct(Model model, @ModelAttribute("searchedProducts")List<Product> products){
+        model.addAttribute("searchedProducts", products);
+        model.addAttribute("addToCardDto", new AddToCardDto());
+        return "product/search";
+    }
 }

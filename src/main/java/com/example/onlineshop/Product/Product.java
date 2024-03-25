@@ -31,7 +31,8 @@ public class Product {
     private ProductType productType;
     private String color;
     private Date expires_in;
-
+    @Lob
+    private String image;
 
     public Integer getId() {
         return id;
@@ -89,5 +90,13 @@ public class Product {
 
     public void setExpires_in(Date expires_in) {
         this.expires_in = expires_in;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }
