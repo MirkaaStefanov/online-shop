@@ -1,6 +1,7 @@
 package com.example.onlineshop.Product;
 
 import com.example.onlineshop.ProductType.ProductType;
+import com.example.onlineshop.ShoppingCart.CartItem;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
@@ -8,6 +9,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 
 @Entity
@@ -32,7 +34,11 @@ public class Product {
     private String color;
     private Date expires_in;
     @Lob
+    @Column(columnDefinition = "MEDIUMBLOB")
     private String image;
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<CartItem> cartItemList;
 
     public Integer getId() {
         return id;
@@ -98,5 +104,13 @@ public class Product {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public List<CartItem> getCartItemList() {
+        return cartItemList;
+    }
+
+    public void setCartItemList(List<CartItem> cartItemList) {
+        this.cartItemList = cartItemList;
     }
 }

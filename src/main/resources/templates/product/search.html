@@ -25,7 +25,7 @@
 
         .product-image {
             max-width: 100%;
-            height: auto;
+            height: 100%;
             margin-bottom: 10px;
         }
 
@@ -68,7 +68,7 @@
   <div class="row row-cols-1 row-cols-md-3 g-4">
     <div class="col" th:each="product : ${searchedProducts}">
       <div class="product-card">
-        <img class="product-image" alt="Product Image">
+        <img class="product-image" th:src="'data:image/jpeg;base64,' + ${product.image}" alt="Product Image" />
         <div class="product-details">
           <h5 class="product-title" th:text="${product.name}">Product Name</h5>
           <p class="product-type" th:text="${product.productType.name}">Product Type</p>

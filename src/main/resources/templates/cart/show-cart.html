@@ -104,7 +104,7 @@
     <h1>Your Shopping Cart</h1>
     <div class="cart-items" th:each="item : ${shoppingCart.items}">
         <div class="cart-item">
-            <img th:src="@{/product1.jpg}" alt="Product 1">
+            <img class="cart-item img" th:src="'data:image/jpeg;base64,' + ${item.product.image}" alt="Product Image" />
             <div class="item-details">
                 <h3 th:text="${item.product.name}"/>
                 <p th:text="'Price: ' + ${item.price}"/>
@@ -120,7 +120,9 @@
         <h2>Cart Summary</h2>
         <p th:text="'Total Items: ' + ${shoppingCart.itemsNumber}"/>
         <p th:text="'Total Price: ' + ${shoppingCart.totalPrice}"/>
-        <a href="#" class="proceed-button">Proceed to Checkout</a>
+        <form action="#" th:action="@{/order/add}" method="post">
+            <button type="submit" class="proceed-button">Proceed to Checkout</button>
+        </form>
     </div>
 </div>
 </body>

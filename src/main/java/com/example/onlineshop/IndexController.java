@@ -14,10 +14,11 @@ public class IndexController {
     private ProductRepository productRepository;
 
     @GetMapping("/")
-    public String homeAllProducts(Model model, @ModelAttribute("successfulAddedProduct")String message){
+    public String homeAllProducts(Model model){
+
         model.addAttribute("allProducts", productRepository.findAll());
         model.addAttribute("addToCardDto", new AddToCardDto());
-        model.addAttribute("successfulAddedProduct", message);
+       // model.addAttribute("successfulAddedProduct", message);
         return "index";
     }
 

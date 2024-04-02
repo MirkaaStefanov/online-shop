@@ -7,47 +7,46 @@
     <style>
         .filter-section {
             background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 20px;
-            margin-bottom: 20px;
+border: 1px solid #ddd;
+border-radius: 5px;
+padding: 20px;
+margin-bottom: 20px;
         }
 
         .product-card {
             background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 20px;
-            margin-bottom: 20px;
+border: 1px solid #ddd;
+border-radius: 5px;
+padding: 20px;
+margin-bottom: 20px;
         }
-
-        .product-image {
+   .product-image {
             max-width: 100%;
-            height: auto;
+            max-height: 200px;
             margin-bottom: 10px;
         }
 
         .product-title {
-            font-size: 18px;
+font-size: 18px;
             font-weight: bold;
-            color: #333;
-            margin-bottom: 10px;
+color: #333;
+margin-bottom: 10px;
         }
 
         .product-type {
-            color: #666;
-            margin-bottom: 10px;
+color: #666;
+margin-bottom: 10px;
         }
 
         .product-price {
-            font-size: 16px;
-            color: #007bff;
-            margin-bottom: 20px;
+font-size: 16px;
+color: #007bff;
+margin-bottom: 20px;
         }
+
     </style>
 </head>
 <body>
-
 <header th:insert="header.html"></header>
 
 <div class="container">
@@ -65,32 +64,39 @@
             <div class="row row-cols-1 row-cols-md-2 g-4">
                 <!-- Product Cards -->
                 <div class="col" th:each="product : ${allProducts}">
+
                     <div class="product-card">
-                        <img th:src="'data:img/png;base64,' + ${product.image}" alt="Product Image" class="product-image">
+                        <img class="product-image" th:src="'data:image/jpeg;base64,' + ${product.image}" alt="Product Image" />
                         <div class="product-details">
                             <h5 class="product-title" th:text="${product.name}">Product Name</h5>
                             <p class="product-type" th:text="${product.productType.name}">Product Type</p>
                             <p class="product-price" th:text="'Price: ' + ${product.price} + ' BGN'">Price</p>
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" th:attr="data-bs-target='#exampleModal'+${product.id}">
+
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    th:attr="data-bs-target='#exampleModal'+${product.id}">
                                 Add to Cart
                             </button>
                         </div>
                     </div>
                     <!-- Modal -->
-                    <div class="modal fade" th:id="'exampleModal'+${product.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal fade" th:id="'exampleModal'+${product.id}" tabindex="-1"
+                         aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" th:text="${product.name}">Modal title</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+
                                 </div>
                                 <div class="modal-body">
-                                    <img class="product-image" th:src="'data:img/png;base64,' + ${product.image}" alt="Product Image">
+                                    <img class="product-image" src="'data:image/jpeg;base64,' + ${product.image}" alt="Product Image" />
                                     <form action="#" th:action="@{/cart/addToCart}" th:object="${addToCardDto}" method="post">
                                         <input type="hidden" name="productId" th:value="${product.id}">
                                         <input type="number" min="1" th:field="*{quantity}">
                                         <button class="btn btn-primary" type="submit">Add to cart</button>
                                     </form>
+
                                 </div>
                             </div>
                         </div>

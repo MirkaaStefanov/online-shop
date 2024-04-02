@@ -34,22 +34,33 @@ public class ShoppingCartService {
         User user = userRepository.getUserByUsername(username);
 
         Optional<Product> optionalProduct = productRepository.findById(addToCardDto.getProductId());
-        Product product= null;
+        Product product;
 
         if(optionalProduct.isPresent()){
             product = optionalProduct.get();
+        }else{
+            //TODO add to redirect attribute message
+            return "redirect:/";
         }
 
         List<CartItem> cartItemList = (List<CartItem>)cartItemRepository.findAll();
         boolean ifProductIsInCart=false;
         for (CartItem cartItem: cartItemList) {
             if(cartItem.getProduct().equals(product)) {
+                if(addToCardDto.getQuantity() > product.getQuantity() || cartItem.getQuantity()+addToCardDto.getQuantity()>product.getQuantity()){
+                    //TODO add to redirect attribute message
+                    return "redirect:/";
+                }
                 cartItem.setQuantity(cartItem.getQuantity()+addToCardDto.getQuantity());
                 ifProductIsInCart=true;
             }
         }
 
         if(ifProductIsInCart==false) {
+            if(addToCardDto.getQuantity() > product.getQuantity()){
+                //TODO add to redirect attribute message
+                return "redirect:/";
+            }
             CartItem cartItem = new CartItem();
             cartItem.setProduct(product);
             cartItem.setQuantity(addToCardDto.getQuantity());

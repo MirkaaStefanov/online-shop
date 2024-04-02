@@ -21,11 +21,15 @@ public class ProductMapper {
         product.setPrice(productDto.getPrice());
         product.setExpires_in(productDto.getExpires_in());
         product.setQuantity(productDto.getQuantity());
-        String image = Base64.getEncoder().encodeToString(productDto.getImage());
-        product.setImage(image);
+        try {
+            product.setImage(Base64.getEncoder().encodeToString(productDto.getFile().getBytes()));
+        }catch (Exception e){
+            System.out.println(e);
+        }
 
         return product;
     }
+
     public Product toDrinkEntity(ProductDto productDto) {
         Product product = new Product();
         ProductType type = productTypeRepository.findByName("drink");
@@ -34,11 +38,15 @@ public class ProductMapper {
         product.setPrice(productDto.getPrice());
         product.setExpires_in(productDto.getExpires_in());
         product.setQuantity(productDto.getQuantity());
-        String image = Base64.getEncoder().encodeToString(productDto.getImage());
-        product.setImage(image);
+        try {
+            product.setImage(Base64.getEncoder().encodeToString(productDto.getFile().getBytes()));
+        }catch (Exception e){
+            System.out.println(e);
+        }
 
         return product;
     }
+
     public Product toSanitaryEntity(ProductDto productDto) {
         Product product = new Product();
         ProductType type = productTypeRepository.findByName("sanitary");
@@ -47,11 +55,15 @@ public class ProductMapper {
         product.setColor(productDto.getColor());
         product.setPrice(productDto.getPrice());
         product.setQuantity(productDto.getQuantity());
-        String image = Base64.getEncoder().encodeToString(productDto.getImage());
-        product.setImage(image);
+        try {
+            product.setImage(Base64.getEncoder().encodeToString(productDto.getFile().getBytes()));
+        }catch (Exception e){
+            System.out.println(e);
+        }
 
         return product;
     }
+
     public Product toRailingEntity(ProductDto productDto) {
         Product product = new Product();
         ProductType type = productTypeRepository.findByName("railing");
@@ -60,11 +72,15 @@ public class ProductMapper {
         product.setColor(productDto.getColor());
         product.setPrice(productDto.getPrice());
         product.setQuantity(productDto.getQuantity());
-        String image = Base64.getEncoder().encodeToString(productDto.getImage());
-        product.setImage(image);
+        try {
+            product.setImage(Base64.getEncoder().encodeToString(productDto.getFile().getBytes()));
+        }catch (Exception e){
+            System.out.println(e);
+        }
 
         return product;
     }
+
     public Product toAccessoryEntity(ProductDto productDto) {
         Product product = new Product();
         ProductType type = productTypeRepository.findByName("accessories");
@@ -73,11 +89,15 @@ public class ProductMapper {
         product.setColor(productDto.getColor());
         product.setPrice(productDto.getPrice());
         product.setQuantity(productDto.getQuantity());
-        String image = Base64.getEncoder().encodeToString(productDto.getImage());
-        product.setImage(image);
+        try {
+            product.setImage(Base64.getEncoder().encodeToString(productDto.getFile().getBytes()));
+        }catch (Exception e){
+            System.out.println(e);
+        }
 
         return product;
     }
+
     public Product toOthersEntity(ProductDto productDto) {
         Product product = new Product();
         ProductType type = productTypeRepository.findByName("others");
@@ -87,8 +107,11 @@ public class ProductMapper {
         product.setPrice(productDto.getPrice());
         product.setExpires_in(productDto.getExpires_in());
         product.setQuantity(productDto.getQuantity());
-        String image = Base64.getEncoder().encodeToString(productDto.getImage());
-        product.setImage(image);
+        try {
+            product.setImage(Base64.getEncoder().encodeToString(productDto.getFile().getBytes()));
+        }catch (Exception e){
+            System.out.println(e);
+        }
 
         return product;
     }

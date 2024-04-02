@@ -80,7 +80,7 @@
 <div class="form-container">
   <h1>Other products form</h1>
 
-  <form action="#" th:action="@{/product/submit/others}" th:object="${productDto}" method="post" id="productForm">
+  <form action="#" th:action="@{/product/submit/others}" th:object="${productDto}" method="post" id="productForm" enctype="multipart/form-data">
     <div class="form-group">
       <label for="name">Name:</label>
       <input type="text" id="name" th:field="*{name}" required>
@@ -108,9 +108,10 @@
     </div>
     <div class="form-group">
       <label for="image">Image:</label>
-      <input type="file" id="image" name="image">
-      <span th:if="${#fields.hasErrors('image')}" th:errors="*{image}"></span>
+      <input type="file" id="image" th:field="*{file}">
+      <span th:if="${#fields.hasErrors('file')}" th:errors="*{file}"></span>
     </div>
+
 
     <div class="form-group">
       <button type="submit">Add Others</button>

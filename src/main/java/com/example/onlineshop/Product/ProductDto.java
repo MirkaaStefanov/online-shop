@@ -9,6 +9,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -25,7 +26,7 @@ public class ProductDto {
     private String color;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date expires_in;
-    private byte[] image;
+    private MultipartFile file;
 
     public String getName() {
         return name;
@@ -75,11 +76,11 @@ public class ProductDto {
         this.expires_in = expires_in;
     }
 
-    public byte[] getImage() {
-        return image;
+    public MultipartFile getFile() {
+        return file;
     }
 
-    public void setImage(byte[] image) {
-        this.image = image;
+    public void setFile(MultipartFile file) {
+        this.file = file;
     }
 }
