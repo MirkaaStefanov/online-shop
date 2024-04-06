@@ -42,7 +42,8 @@ public class UserMapper {
         employeeRepository.save(employee);
 
         User user = new User();
-        user.setPassword(userDto.getPassword());
+        user.setEnabled(true);
+        user.setPassword(bCrypt.passwordEncoder().encode(userDto.getPassword()));
         user.setUsername(Integer.toString(employee.getId()));
         user.setEmployee(employee);
         user.setRole("Employee");
