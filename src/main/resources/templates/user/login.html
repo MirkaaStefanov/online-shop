@@ -62,7 +62,7 @@
 </head>
 <body>
 
-<header th:insert="header.html"></header>
+<header th:insert="~{header.html}"></header>
 
 <div th:if="${param.error}">
     Invalid username and password.

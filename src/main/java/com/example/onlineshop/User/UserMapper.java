@@ -33,7 +33,7 @@ public class UserMapper {
         return user;
     }
 
-    public User employee(EmployeeUserDto userDto) {
+    public User toEmployeeEntity(EmployeeUserDto userDto) {
         Employee employee = new Employee();
         employee.setFirstName(userDto.getFirstName());
         employee.setLastName(userDto.getLastName());

@@ -18,12 +18,12 @@ public class SearchController {
     public String search(@RequestParam(name = "search") String search, Model model) {
         try {
             Integer id = Integer.parseInt(search);
-            model.addAttribute("searchedProducts", productRepository.findProductById(id));
+            model.addAttribute("products", productRepository.findProductById(id));
         } catch (Exception e) {
-            model.addAttribute("searchedProducts", productRepository.findProductByNameOrCategory(search));
+            model.addAttribute("products", productRepository.findProductByNameOrCategory(search));
         }
         model.addAttribute("addToCardDto", new AddToCardDto());
-        return "product/search";
+        return "product/show";
     }
 
 

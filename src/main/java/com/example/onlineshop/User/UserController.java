@@ -80,7 +80,7 @@ public class UserController {
             return "user/registration-employee";
         }
 
-        User user = mapper.employee(employeeUserDto);
+        User user = mapper.toEmployeeEntity(employeeUserDto);
         userRepository.save(user);
         return "redirect:/";
     }

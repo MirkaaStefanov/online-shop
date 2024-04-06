@@ -2,6 +2,7 @@ package com.example.onlineshop.ShoppingCart;
 
 import com.example.onlineshop.Product.Product;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
 
 import java.util.Objects;
 
@@ -11,10 +12,8 @@ public class CartItem {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-
-    private int quantity;
     private double price;
-
+    private int quantity;
     @ManyToOne(fetch = FetchType.EAGER)
     private Product product;
 

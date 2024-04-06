@@ -12,7 +12,7 @@ public class EmployeeController {
     @Autowired
     EmployeeRepository employeeRepository;
 
-    @GetMapping("/showAll")
+    @GetMapping("/show-all")
     public String showEmployees(Model model){
         model.addAttribute("allEmployees", employeeRepository.findAll());
         return "employee/show";

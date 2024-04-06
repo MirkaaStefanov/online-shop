@@ -84,7 +84,7 @@ public class OrderController {
     @GetMapping("/show")
     public String showAllOrders(Model model) {
         model.addAttribute("allOrders", orderRepository.findAll());
-        return "order/show";
+        return "order/show-all";
     }
 
     @PostMapping("/change-status")
@@ -96,7 +96,7 @@ public class OrderController {
             order = optionalOrder.get();
         } else {
             //TODO message
-            return "redirect:/order/show";
+            return "redirect:/order/show-all";
         }
 
         switch (order.getOrderStatus().getStatusNum()) {
@@ -112,7 +112,23 @@ public class OrderController {
         }
         orderRepository.save(order);
 
-        return "redirect:/order/show";
+        return "redirect:/order/show-all";
     }
 
+    @GetMapping("/show-order")
+    public String showOneOrder(@RequestParam("orderId") Integer orderId, Model model) {
+
+        Optional<Order> optionalOrder = orderRepository.findById(orderId);
+        Order order;
+        if (optionalOrder.isPresent()) {
+            order = optionalOrder.get();
+        } else {
+            //TODO message
+            return "redirect:/order/show-all";
+        }
+
+        model.addAttribute("order", order);
+
+        return "order/show";
+    }
 }

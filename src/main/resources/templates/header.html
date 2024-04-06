@@ -13,7 +13,7 @@
         padding: 0;
         background-color: #fff;
         border-bottom: 1px solid #ddd;
-        height: 80px; /* Увеличете височината на навигационния бар */
+        height: 80px;
     }
 
     .navbar-brand {
@@ -30,7 +30,7 @@
 
     .nav-link:hover {
         background-color: #007bff;
-        color: #fff; /* Променете цвета на текста на връзките при ховър */
+        color: #fff;
     }
 
     .form-control {
@@ -61,6 +61,7 @@
     </style>
 </head>
 <body>
+
 <div class="header-container">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
@@ -69,7 +70,7 @@
                 <ul class="navbar-nav mx-auto"> <!-- Центриране на search бар-а -->
                     <!-- Search bar -->
                     <li class="nav-item">
-                        <form class="d-flex" action="#" th:action="@{/search}" method="get">
+                        <form class="d-flex" action="#" th:action="@{/product/search}" method="get">
                             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
                                    name="search">
                             <button class="btn btn-outline-primary" type="submit">Search</button>
@@ -80,10 +81,10 @@
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/cart/view}">View Cart</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" sec:authorize="hasAuthority('Employee')">
                         <a class="nav-link" th:href="@{/order/show}">View Orders</a>
                     </li>
-                    <li class="nav-item dropdown">
+                    <li class="nav-item dropdown" sec:authorize="hasAuthority('Employee')">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
                            data-bs-toggle="dropdown" aria-expanded="false">
                             Add Products
@@ -96,6 +97,12 @@
                             <li><a class="dropdown-item" th:href="@{/product/add/accessories}">Accessory</a></li>
                             <li><a class="dropdown-item" th:href="@{/product/add/others}">Others</a></li>
                         </ul>
+                    </li>
+                    <li class="nav-item" sec:authorize="hasAuthority('Admin')">
+                        <a class="nav-link" th:href="@{/user/employee/registration}">Add Employee</a>
+                    </li>
+                    <li class="nav-item" sec:authorize="hasAuthority('Employee')">
+                        <a class="nav-link" th:href="@{/employee/show-all}">Show employees</a>
                     </li>
                     <li class="nav-item" sec:authorize="isAuthenticated()">
                         <a class="nav-link" th:href="@{/user/profile}">Profile</a>

@@ -2,10 +2,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Show orders</title>
+    <title>Show order</title>
 </head>
 <body>
-<header th:insert="header.html"></header>
+<header th:insert="~{header.html}"></header>
 
 <div class="container text-center">
     <div class="row">
@@ -25,29 +25,15 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Date</th>
-                    <th scope="col">Products</th>
-                    <th scope="col">Customer</th>
-                    <th scope="col">Status</th>
+                    <th scope="col">Product</th>
+                    <th scope="col">Quantity</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
-                <tr th:each="order : ${allOrders}">
-                    <th scope="row" th:text="${order.id}"/>
-                    <td th:text="${order.orderDate}"/>
-                    <td>
-                        <li th:each="orderItem : ${order.orderItems}" th:text="${orderItem.product.name}"/>
-                    </td>
-                    <td sec:authentication="principal.username"/>
-                    <td th:text="${order.orderStatus}"/>
-                    <td>
-                        <form action="#" th:action="@{/order/change-status}" method="post">
-                            <input type="hidden" name="orderId" th:value="${order.id}"/>
-                            <button class="btn btn-primary" type="submit">Change status</button>
-                        </form>
-                    </td>
+                <tr th:each="orderItem : ${order.orderItems}">
+                    <td th:text="${orderItem.product.name}">
+                    <td th:text="${orderItem.quantity}">
                 </tr>
                 </tr>
 
