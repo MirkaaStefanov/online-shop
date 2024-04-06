@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Bubble Layout</title>
+    <style>
+        .field-container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .row {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .field {
+            width: calc(33.33% - 20px); /* Adjust the width and spacing as needed */
+            margin-bottom: 20px; /* Adjust the spacing between rows */
+        }
+
+        .frame {
+            border: 2px solid #ccc; /* Frame around each field */
+            padding: 10px;
+        }
+
+        .image {
+            width: 100px; /* Adjust image size */
+            height: 100px; /* Adjust image size */
+            display: block;
+        }
+
+        .button {
+            margin-top: 10px; /* Spacing between image and button */
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<div class="field-container">
+    <div class="row">
+        <div class="field">
+            <div class="frame">
+                <img src="image1.jpg" alt="Image 1" class="image">
+                <button class="button">Add to Cart</button>
+            </div>
+        </div>
+        <div class="field">
+            <div class="frame">
+                <img src="image2.jpg" alt="Image 2" class="image">
+                <button class="button">Add to Cart</button>
+            </div>
+        </div>
+        <div class="field">
+            <div class="frame">
+                <img src="image3.jpg" alt="Image 3" class="image">
+                <button class="button">Add to Cart</button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="field">
+            <div class="frame">
+                <img src="image4.jpg" alt="Image 4" class="image">
+                <button class="button">Add to Cart</button>
+            </div>
+        </div>
+        <div class="field">
+            <div class="frame">
+                <img src="image5.jpg" alt="Image 5" class="image">
+                <button class="button">Add to Cart</button>
+            </div>
+        </div>
+        <div class="field">
+            <div class="frame">
+                <img src="image6.jpg" alt="Image 6" class="image">
+                <button class="button">Add to Cart</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

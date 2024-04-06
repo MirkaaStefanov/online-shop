@@ -1,5 +1,6 @@
 package com.example.onlineshop.User;
 
+import com.example.onlineshop.Employee.EmployeeUserDto;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -58,5 +59,29 @@ public class UserController {
     @GetMapping("/login")
     public String login() {
         return "user/login";
+    }
+
+    @GetMapping("/employee/registration")
+    public String addEmployee(Model model) {
+        model.addAttribute("employeeUserDto", new EmployeeUserDto());
+        return "user/registration-employee";
+    }
+
+    @PostMapping("/employee/registration")
+    public String postEmployee(@Valid EmployeeUserDto employeeUserDto, BindingResult bindingResult, Model model) {
+
+
+        if (bindingResult.hasErrors()) {
+            return "user/registration-employee";
+        }
+
+        if (!userService.ifTwoPasswordsMatch(employeeUserDto.getPassword(), employeeUserDto.getCheckPassword())) {
+            model.addAttribute("passwordsDoNotMatch", "two passwords do not match !");
+            return "user/registration-employee";
+        }
+
+        User user = mapper.employee(employeeUserDto);
+        userRepository.save(user);
+        return "redirect:/";
     }
 }

@@ -3,6 +3,7 @@ package com.example.onlineshop.User;
 import com.example.onlineshop.Config.BCrypt;
 import com.example.onlineshop.Employee.Employee;
 import com.example.onlineshop.Employee.EmployeeRepository;
+import com.example.onlineshop.Employee.EmployeeUserDto;
 import com.example.onlineshop.ShoppingCart.ShoppingCart;
 import com.example.onlineshop.ShoppingCart.ShoppingCartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,22 @@ public class UserMapper {
         shoppingCartRepository.save(shoppingCart);
         user.setShoppingCart(shoppingCart);
 
+        return user;
+    }
+
+    public User employee(EmployeeUserDto userDto) {
+        Employee employee = new Employee();
+        employee.setFirstName(userDto.getFirstName());
+        employee.setLastName(userDto.getLastName());
+        employee.setEmployeeAge(userDto.getEmployeeAge());
+        employee.setSalary(userDto.getSalary());
+        employeeRepository.save(employee);
+
+        User user = new User();
+        user.setPassword(userDto.getPassword());
+        user.setUsername(Integer.toString(employee.getId()));
+        user.setEmployee(employee);
+        user.setRole("Employee");
         return user;
     }
 

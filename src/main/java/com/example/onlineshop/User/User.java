@@ -1,5 +1,6 @@
 package com.example.onlineshop.User;
 
+import com.example.onlineshop.Employee.Employee;
 import com.example.onlineshop.ShoppingCart.ShoppingCart;
 import jakarta.persistence.*;
 
@@ -22,6 +23,17 @@ public class User {
     @JoinColumn(name = "shopping_cart_id")
     private ShoppingCart shoppingCart;
 
+    @ManyToOne
+    @JoinColumn(name="employee_id")
+    private Employee employee;
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
 
     public ShoppingCart getShoppingCart() {
         return shoppingCart;
