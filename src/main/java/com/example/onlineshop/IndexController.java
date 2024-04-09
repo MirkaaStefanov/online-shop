@@ -1,5 +1,6 @@
 package com.example.onlineshop;
 
+import com.example.onlineshop.Product.ProductFilterDto;
 import com.example.onlineshop.Product.ProductRepository;
 import com.example.onlineshop.ProductType.ProductTypeRepository;
 import com.example.onlineshop.ShoppingCart.AddToCardDto;
@@ -23,6 +24,8 @@ public class IndexController {
         model.addAttribute("allProducts", productRepository.findAll());
         model.addAttribute("addToCardDto", new AddToCardDto());
         model.addAttribute("allTypes", productTypeRepository.findAll());
+        model.addAttribute("productFilterDto", new ProductFilterDto());
+
        // model.addAttribute("successfulAddedProduct", message);
         return "index";
     }

@@ -124,35 +124,30 @@ margin-bottom: 20px;
         <div class="col-md-2">
             <div class="filter-section">
                 <h2>Filter</h2>
-
                 <form action="#" th:action="@{/product/filter}" method="get">
-                    <div class="form-group">
-                        <label >Search:</label>
-                        <input type="text" name="name" class="form-control" placeholder="Search by name">
+                    <div>
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" >
                     </div>
-
-                    <div class="form-group">
-                        <label >Category:</label>
-                        <select name="type" class="form-control">
-                            <option value="">All Categories</option>
-                            <option th:each="type : ${allTypes}" th:value="${type.id}" th:text="${type.name}"/>
+                    <div>
+                        <label for="category">Category:</label>
+                        <select id="category" name="categoryId" >
+                            <option value="">All</option>
+                            <!-- Iterate over categories to populate options -->
+                            <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
                         </select>
                     </div>
-
-                    <div class="form-group">
-                        <label>Price Range:</label>
-                        <div class="row">
-                            <div class="col">
-                                <input type="number" name="minPrice" class="form-control" placeholder="Min">
-                            </div>
-                            <div class="col">
-                                <input type="number" name="maxPrice" class="form-control" placeholder="Max">
-                            </div>
-                        </div>
+                    <div>
+                        <label for="minPrice">Min Price:</label>
+                        <input type="number" id="minPrice" name="minPrice" >
                     </div>
-
-                    <button type="submit" class="btn btn-primary">Apply Filters</button>
+                    <div>
+                        <label for="maxPrice">Max Price:</label>
+                        <input type="number" id="maxPrice" name="maxPrice" >
+                    </div>
+                    <button type="submit">Filter</button>
                 </form>
+
             </div>
         </div>
         <!-- Products Section -->

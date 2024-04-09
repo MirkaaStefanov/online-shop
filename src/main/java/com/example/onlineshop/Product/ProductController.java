@@ -145,28 +145,50 @@ public class ProductController {
     }
 
     @GetMapping("/filter")
-    public String filterProducts(@RequestParam("name") String name, @RequestParam("type") Integer typeId,
-                                 @RequestParam("minPrice") Integer minPrice, @RequestParam("maxPrice") Integer maxPrice,
+    public String filterProducts(@RequestParam(name = "name", required = false) String name,
+                                 @RequestParam(name = "categoryId", required = false) Integer categoryId,
+                                 @RequestParam(name = "minPrice", required = false) Double minPrice,
+                                 @RequestParam(name = "maxPrice", required = false) Double maxPrice,
                                  Model model) {
-
         if (name == null) {
             name = ""; // Set default value or handle as needed
         }
-        if (typeId == null) {
-            typeId = 0; // Set default value or handle as needed
-        }
+
         if (minPrice == null) {
-            minPrice = 0; // Set default value or handle as needed
+            minPrice = (double) 0; // Set default value or handle as needed
         }
         if (maxPrice == null) {
-            maxPrice = Integer.MAX_VALUE; // Set default value or handle as needed
+            maxPrice = (double) Integer.MAX_VALUE; // Set default value or handle as needed
         }
 
-        List<Product> filteredProduct = productRepository.filter(name, typeId, minPrice, maxPrice);
+        List<Product> filteredProduct = productRepository.filter(name, categoryId, minPrice, maxPrice);
         model.addAttribute("products", filteredProduct);
         model.addAttribute("addToCardDto", new AddToCardDto());
         return "product/show";
+
+
     }
+//    @GetMapping("/filter")
+//    public String filterProducts(@ModelAttribute ProductFilterDto productFilterDto, Model model) {
+//
+//        if (productFilterDto.name == null) {
+//            productFilterDto.name = ""; // Set default value or handle as needed
+//        }
+////        if (productFilterDto.typeId==null) {
+////            productFilterDto.typeId = 0; // Set default value or handle as needed
+////        }
+////        if (productFilterDto.minPrice == null) {
+////            productFilterDto.minPrice = 0; // Set default value or handle as needed
+////        }
+////        if (productFilterDto.maxPrice == null) {
+////            productFilterDto.maxPrice = Integer.MAX_VALUE; // Set default value or handle as needed
+////        }
+//
+//        List<Product> filteredProduct = productRepository.filter(productFilterDto.name, productFilterDto.getType().getId(), productFilterDto.minPrice, productFilterDto.maxPrice);
+//        model.addAttribute("products", filteredProduct);
+//        model.addAttribute("addToCardDto", new AddToCardDto());
+//        return "product/show";
+//    }
 
     @GetMapping("/search")
     public String search(@RequestParam(name = "search") String search, Model model) {
