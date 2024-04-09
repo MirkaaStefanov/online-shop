@@ -115,4 +115,15 @@ public class ProductMapper {
 
         return product;
     }
+//
+//    public ProductDto toDto(Product product){
+//        ProductDto productDto = new ProductDto();
+//        productDto.setName(product.getName());
+//        productDto.setProductType(product.getProductType());
+//        productDto.setColor(product.getColor());
+//        productDto.setPrice(product.getPrice());
+//        productDto.setExpires_in(product.getExpires_in());
+//        productDto.setQuantity(product.getQuantity());
+//        return productDto;
+//    }
 }

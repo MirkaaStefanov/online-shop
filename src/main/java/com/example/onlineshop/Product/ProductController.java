@@ -14,39 +14,23 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/product")
 public class ProductController {
     @Autowired
-    private ProductRepository productRepository;
-
-    @Autowired
-    private ProductMapper productMapper;
-
-    @Autowired
-    private ProductTypeRepository productTypeRepository;
+    ProductService productService;
 
     @GetMapping("/add/food")
     public String foodForm(Model model) {
-        model.addAttribute("productDto", new ProductDto());
-        return "product/form-food";
+        return  productService.foodForm(model);
     }
 
     @PostMapping("/submit/food")
     public String addFood(@Valid @ModelAttribute ProductDto productDto, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasErrors()) {
-            return "product/form-food";
-        }
-        if (productDto.getExpires_in() == null) {
-            return "product/form-food";
-        }
-        Product product = productMapper.toFoodEntity(productDto);
-        productRepository.save(product);
-        redirectAttributes.addFlashAttribute("successfulAddedProduct", "You added successfully new food !");
-        return "redirect:/";
+    return productService.addFood(productDto,bindingResult, model, redirectAttributes);
     }
-
     @GetMapping("/add/drink")
     public String drinkForm(Model model) {
         model.addAttribute("productDto", new ProductDto());
@@ -55,93 +39,47 @@ public class ProductController {
 
     @PostMapping("/submit/drink")
     public String addDrink(@Valid @ModelAttribute ProductDto productDto, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasErrors()) {
-            return "product/form-drink";
-        }
-        if (productDto.getExpires_in() == null) {
-            return "product/form-drink";
-        }
-        Product product = productMapper.toDrinkEntity(productDto);
-        productRepository.save(product);
-        redirectAttributes.addFlashAttribute("successfulAddedProduct", "You added successfully new drink !");
-        return "redirect:/";
+        return productService.addDrink(productDto, bindingResult, model, redirectAttributes);
     }
 
     @GetMapping("/add/sanitary")
     public String sanitaryForm(Model model) {
-        model.addAttribute("productDto", new ProductDto());
-        return "product/form-sanitary";
+        return productService.sanitaryForm(model);
     }
 
     @PostMapping("/submit/sanitary")
     public String addSanitary(@Valid @ModelAttribute ProductDto productDto, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasErrors()) {
-            return "product/form-sanitary";
-        }
-        if (productDto.getColor() == null) {
-            return "product/form-sanitary";
-        }
-        Product product = productMapper.toSanitaryEntity(productDto);
-        productRepository.save(product);
-        redirectAttributes.addFlashAttribute("successfulAddedProduct", "You added successfully new sanitary !");
-        return "redirect:/";
+        return productService.addSanitary(productDto, bindingResult, model, redirectAttributes);
     }
 
     @GetMapping("/add/railing")
     public String railingForm(Model model) {
-        model.addAttribute("productDto", new ProductDto());
-        return "product/form-railing";
+        return productService.railingForm(model);
     }
 
     @PostMapping("/submit/railing")
     public String addRailing(@Valid @ModelAttribute ProductDto productDto, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasErrors()) {
-            return "product/form-railing";
-        }
-        if (productDto.getColor() == null) {
-            return "product/form-railing";
-        }
-        Product product = productMapper.toRailingEntity(productDto);
-        productRepository.save(product);
-        redirectAttributes.addFlashAttribute("successfulAddedProduct", "You added successfully new railing !");
-        return "redirect:/";
+        return productService.addRailing(productDto, bindingResult, model, redirectAttributes);
     }
 
     @GetMapping("/add/accessories")
     public String accessoriesForm(Model model) {
-        model.addAttribute("productDto", new ProductDto());
-        return "product/form-accessories";
+        return  productService.accessoriesForm(model);
     }
 
     @PostMapping("/submit/accessories")
     public String addAccessories(@Valid @ModelAttribute ProductDto productDto, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasErrors()) {
-            return "product/form-accessories";
-        }
-        if (productDto.getColor() == null) {
-            return "product/form-accessories";
-        }
-        Product product = productMapper.toAccessoryEntity(productDto);
-        productRepository.save(product);
-        redirectAttributes.addFlashAttribute("successfulAddedProduct", "You added successfully new accessories !");
-        return "redirect:/";
+        return productService.addAccessories(productDto, bindingResult, model, redirectAttributes);
     }
 
     @GetMapping("/add/others")
     public String othersForm(Model model) {
-        model.addAttribute("productDto", new ProductDto());
-        return "product/form-others";
+        return productService.othersForm(model);
     }
 
     @PostMapping("/submit/others")
     public String addOthers(@Valid @ModelAttribute ProductDto productDto, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasErrors()) {
-            return "product/form-others";
-        }
-        Product product = productMapper.toOthersEntity(productDto);
-        productRepository.save(product);
-        redirectAttributes.addFlashAttribute("successfulAddedProduct", "You added successfully new product !");
-        return "redirect:/";
+       return productService.addOthers(productDto, bindingResult, model, redirectAttributes);
     }
 
     @GetMapping("/filter")
@@ -150,23 +88,7 @@ public class ProductController {
                                  @RequestParam(name = "minPrice", required = false) Double minPrice,
                                  @RequestParam(name = "maxPrice", required = false) Double maxPrice,
                                  Model model) {
-        if (name == null) {
-            name = ""; // Set default value or handle as needed
-        }
-
-        if (minPrice == null) {
-            minPrice = (double) 0; // Set default value or handle as needed
-        }
-        if (maxPrice == null) {
-            maxPrice = (double) Integer.MAX_VALUE; // Set default value or handle as needed
-        }
-
-        List<Product> filteredProduct = productRepository.filter(name, categoryId, minPrice, maxPrice);
-        model.addAttribute("products", filteredProduct);
-        model.addAttribute("addToCardDto", new AddToCardDto());
-        return "product/show";
-
-
+        return productService.filterProducts(name, categoryId, minPrice, maxPrice, model);
     }
 //    @GetMapping("/filter")
 //    public String filterProducts(@ModelAttribute ProductFilterDto productFilterDto, Model model) {
@@ -192,15 +114,15 @@ public class ProductController {
 
     @GetMapping("/search")
     public String search(@RequestParam(name = "search") String search, Model model) {
-        try {
-            Integer id = Integer.parseInt(search);
-            model.addAttribute("products", productRepository.findProductById(id));
-        } catch (Exception e) {
-            model.addAttribute("products", productRepository.findProductByNameOrCategory(search));
-        }
-        model.addAttribute("addToCardDto", new AddToCardDto());
-        return "product/show";
+        return productService.search(search, model);
     }
 
-
+    @GetMapping("/update")
+    public String update(@RequestParam(name = "productId") Integer productId, Model model){
+        return productService.update(productId, model);
+    }
+    @PostMapping("/submit/update")
+    public String submitUpdate(@Valid @ModelAttribute ProductDto productDto, @RequestParam(name="productId") Integer productId){
+        return productService.submitUpdate(productDto, productId);
+    }
 }
