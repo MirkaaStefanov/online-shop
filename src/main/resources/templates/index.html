@@ -168,10 +168,12 @@ margin-bottom: 20px;
                                     th:attr="data-bs-target='#exampleModal'+${product.id}">
                                 Add to Cart
                             </button>
+
                             <form action="#" th:action="@{/product/update}" method="get">
-                            <input type="hidden" name="productId" th:value="${productId}" />
+                            <input type="hidden" name="productId" th:value="${product.id}" />
                             <button class="btn btn-primary" type="submit">Update</button>
                             </form>
+
                         </div>
                     </div>
                     <!-- Modal -->

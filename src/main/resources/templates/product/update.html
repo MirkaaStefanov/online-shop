@@ -80,7 +80,7 @@
 <div class="form-container">
   <h1>Update Existing Product</h1>
 
-  <form action="#" th:action="@{/product/submit/update}" th:object="${product}" method="post" id="productForm" enctype="multipart/form-data">
+  <form action="#" th:action="@{/product/submit/update}" th:object="${updateProduct}" method="post" id="productForm" enctype="multipart/form-data">
     <input type="hidden" name="productId" th:value="${productId}"/>
     <div class="form-group">
       <label for="name">Name:</label>
@@ -94,12 +94,18 @@
     </div>
     <div class="form-group">
       <label for="price">Quantity:</label>
-      <input type="number" id="quantity" th:field="*{quantity}" required>
+      <input type="number" id="quantity" th:field="*{quantity}" required/>
       <span th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}"></span>
+    </div>
+    <div>
+      <label for="category">Category:</label>
+      <select id="category" name="productType" >
+        <option th:each="category : ${allTypes}" th:value="${category.id}" th:text="${category.name}"></option>
+      </select>
     </div>
     <div class="form-group" id="colorField">
       <label for="color">Color:</label>
-      <input type="text" id="color" th:field="*{color}" required>
+      <input type="text" id="color" th:field="*{color}">
       <span th:if="${#fields.hasErrors('color')}" th:errors="*{color}"></span>
     </div>
     <div class="form-group">

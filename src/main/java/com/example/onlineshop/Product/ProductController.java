@@ -33,8 +33,7 @@ public class ProductController {
     }
     @GetMapping("/add/drink")
     public String drinkForm(Model model) {
-        model.addAttribute("productDto", new ProductDto());
-        return "product/form-drink";
+     return productService.drinkForm(model);
     }
 
     @PostMapping("/submit/drink")

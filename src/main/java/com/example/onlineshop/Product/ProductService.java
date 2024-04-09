@@ -196,6 +196,7 @@ public class ProductService {
     public String update(Integer productId, Model model){
         model.addAttribute("updateProduct", new ProductDto());
         model.addAttribute("productId", productId);
+        model.addAttribute("allTypes", productTypeRepository.findAll());
         return "product/update";
     }
 
@@ -220,7 +221,9 @@ public class ProductService {
         else {
             product = productMapper.toOthersEntity(productDto);
         }
+
         product.setId(productId);
+        productRepository.save(product);
         return "redirect:/";
     }
 
