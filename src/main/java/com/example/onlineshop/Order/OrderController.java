@@ -112,7 +112,7 @@ public class OrderController {
         }
         orderRepository.save(order);
 
-        return "redirect:/order/show-all";
+        return "redirect:/order/show";
     }
 
     @GetMapping("/show-order")
