@@ -5,53 +5,57 @@
     <title>Home</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css">
     <style>
-
-     .product-card {
+        .product-card {
             background-color: #fff;
-border: 1px solid #ddd;
-border-radius: 5px;
-padding: 20px;
-margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
         }
-   .product-image {
+
+        .product-image {
             max-width: 100%;
             max-height: 200px;
             margin-bottom: 10px;
         }
 
         .product-title {
-font-size: 18px;
+            font-size: 18px;
             font-weight: bold;
-color: #333;
-margin-bottom: 10px;
+            color: #333;
+            margin-bottom: 10px;
         }
 
         .product-type {
-color: #666;
-margin-bottom: 10px;
+            color: #666;
+            margin-bottom: 10px;
         }
 
         .product-price {
-font-size: 16px;
-color: #007bff;
-margin-bottom: 20px;
+            font-size: 16px;
+            color: #007bff;
+            margin-bottom: 20px;
         }
-         .filter-section {
-        background-color: #f8f9fa;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        padding: 20px;
-        margin-bottom: 20px;
-        width: 100%; /* Set width to 100% */
-        max-width: 400px; /* Set max-width to limit the width */
-        margin-right: auto; /* Center the filter section horizontally */
-        margin-left: auto; /* Center the filter section horizontally */
-    }
+
+       .filter-section {
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+            width: 250px; /* Adjust width as needed */
+            position: sticky;
+            top: 20px;
+            left: 20px; /* Adjust the left position */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
 
         .filter-section h2 {
             color: #333;
             margin-bottom: 20px;
             font-size: 1.25rem;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
         }
 
         .form-group label {
@@ -105,13 +109,21 @@ margin-bottom: 20px;
             background-color: #007bff;
             border: 1px solid #007bff;
             cursor: pointer;
+            margin-top: 10px;
         }
 
         .form-group button[type="submit"]:hover {
             background-color: #0056b3;
             border-color: #0056b3;
         }
+.input-group {
+        display: flex;
+        align-items: center;
+    }
 
+    .input-group-text {
+        margin: 0 5px;
+    }
     </style>
     <script th:inline="javascript">
     setTimeout(function() {
@@ -120,6 +132,7 @@ margin-bottom: 20px;
             messageDiv.style.display = 'none';
         }
     }, 3000);
+
     </script>
 </head>
 <body>
@@ -133,16 +146,16 @@ margin-bottom: 20px;
 
 <div class="container">
     <div class="row">
-
-        <div class="col-md-2">
+        <!-- Filter Section -->
+        <div class="col-md-3">
             <div class="filter-section">
                 <h2>Filter</h2>
                 <form action="#" th:action="@{/product/filter}" method="get">
-                    <div>
+                    <div class="form-group">
                         <label for="name">Name:</label>
                         <input type="text" id="name" name="name">
                     </div>
-                    <div>
+                    <div class="form-group">
                         <label for="category">Category:</label>
                         <select id="category" name="categoryId">
                             <option value="">All</option>
@@ -150,49 +163,45 @@ margin-bottom: 20px;
                                     th:text="${category.name}"></option>
                         </select>
                     </div>
-                    <div>
-                        <label for="minPrice">Min Price:</label>
-                        <input type="number" id="minPrice" name="minPrice">
+                    <div class="form-group">
+                        <label >Price Range:</label>
+                        <div class="input-group">
+                            <input type="number" id="minPrice" name="minPrice" class="form-control" placeholder="Min">
+                            <input type="number" id="maxPrice" name="maxPrice" class="form-control" placeholder="Max">
+                        </div>
                     </div>
-                    <div>
-                        <label for="maxPrice">Max Price:</label>
-                        <input type="number" id="maxPrice" name="maxPrice">
-                    </div>
+
                     <button type="submit">Filter</button>
                 </form>
-
             </div>
         </div>
         <!-- Products Section -->
-        <div class="col-md-10"> <!-- 4/5 width on medium-sized screens and above -->
+        <div class="col-md-9"> <!-- 4/5 width on medium-sized screens and above -->
             <div class="row row-cols-1 row-cols-md-2 g-4">
                 <!-- Product Cards -->
                 <div class="col" th:each="product : ${products}">
-
                     <div class="product-card">
                         <img class="product-image" th:src="'data:image/jpeg;base64,' + ${product.image}"
                              alt="Product Image"/>
-
                         <div class="product-details">
                             <h5 class="product-title" th:text="${product.name}">Product Name</h5>
                             <p class="product-type" th:text="${product.productType.name}">Product Type</p>
                             <p class="product-price" th:text="'Price: ' + ${product.price} + ' BGN'">Price</p>
-
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                    th:attr="data-bs-target='#exampleModal'+${product.id}" sec:authorize="hasAuthority('User')">
+                                    th:attr="data-bs-target='#exampleModal'+${product.id}"
+                                    sec:authorize="hasAuthority('User')">
                                 Add to Cart
                             </button>
-
-                            <form sec:authorize="hasAuthority('Employee')" action="#" th:action="@{/product/update}" method="get">
+                            <form sec:authorize="hasAuthority('Employee')" action="#" th:action="@{/product/update}"
+                                  method="get">
                                 <input type="hidden" name="productId" th:value="${product.id}"/>
                                 <button class="btn btn-primary" type="submit">Update</button>
                             </form>
-
-                            <form sec:authorize="hasAuthority('Employee')" action="#" th:action="@{/product/delete}" method="post">
+                            <form sec:authorize="hasAuthority('Employee')" action="#" th:action="@{/product/delete}"
+                                  method="post">
                                 <input type="hidden" name="productId" th:value="${product.id}"/>
                                 <button class="btn btn-primary" type="submit">Delete</button>
                             </form>
-
                         </div>
                     </div>
                     <!-- Modal -->
@@ -204,7 +213,6 @@ margin-bottom: 20px;
                                     <h5 class="modal-title" th:text="${product.name}">Modal title</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
-
                                 </div>
                                 <div class="modal-body">
                                     <img class="product-image" th:src="'data:image/jpeg;base64,' + ${product.image}"
