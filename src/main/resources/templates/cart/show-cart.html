@@ -95,16 +95,31 @@
             background-color: #0056b3;
             text-decoration: none;
         }
+
     </style>
+    <script th:inline="javascript">
+    setTimeout(function() {
+        var messageDiv = document.getElementById("messageDiv");
+        if (messageDiv) {
+            messageDiv.style.display = 'none';
+        }
+    }, 3000);
+
+    </script>
+
 </head>
 <body>
 <header th:insert="~{header.html}"/>
+
+<div id="messageDiv" th:if="${message}" style="color: green;">
+    <p th:text="${message}"></p>
+</div>
 
 <div class="container cart-container">
     <h1>Your Shopping Cart</h1>
     <div class="cart-items" th:each="item : ${shoppingCart.items}">
         <div class="cart-item">
-            <img class="cart-item img" th:src="'data:image/jpeg;base64,' + ${item.product.image}" alt="Product Image" />
+            <img class="cart-item img" th:src="'data:image/jpeg;base64,' + ${item.product.image}" alt="Product Image"/>
             <div class="item-details">
                 <h3 th:text="${item.product.name}"/>
                 <p th:text="'Price: ' + ${item.price}"/>

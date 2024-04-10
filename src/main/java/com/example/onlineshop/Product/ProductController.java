@@ -29,7 +29,7 @@ public class ProductController {
 
     @PostMapping("/submit/food")
     public String addFood(@Valid @ModelAttribute ProductDto productDto, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
-    return productService.addFood(productDto,bindingResult, model, redirectAttributes);
+    return productService.addFood(productDto,bindingResult, redirectAttributes);
     }
     @GetMapping("/add/drink")
     public String drinkForm(Model model) {
@@ -89,27 +89,6 @@ public class ProductController {
                                  Model model) {
         return productService.filterProducts(name, categoryId, minPrice, maxPrice, model);
     }
-//    @GetMapping("/filter")
-//    public String filterProducts(@ModelAttribute ProductFilterDto productFilterDto, Model model) {
-//
-//        if (productFilterDto.name == null) {
-//            productFilterDto.name = ""; // Set default value or handle as needed
-//        }
-////        if (productFilterDto.typeId==null) {
-////            productFilterDto.typeId = 0; // Set default value or handle as needed
-////        }
-////        if (productFilterDto.minPrice == null) {
-////            productFilterDto.minPrice = 0; // Set default value or handle as needed
-////        }
-////        if (productFilterDto.maxPrice == null) {
-////            productFilterDto.maxPrice = Integer.MAX_VALUE; // Set default value or handle as needed
-////        }
-//
-//        List<Product> filteredProduct = productRepository.filter(productFilterDto.name, productFilterDto.getType().getId(), productFilterDto.minPrice, productFilterDto.maxPrice);
-//        model.addAttribute("products", filteredProduct);
-//        model.addAttribute("addToCardDto", new AddToCardDto());
-//        return "product/show";
-//    }
 
     @GetMapping("/search")
     public String search(@RequestParam(name = "search") String search, Model model) {
@@ -121,7 +100,12 @@ public class ProductController {
         return productService.update(productId, model);
     }
     @PostMapping("/submit/update")
-    public String submitUpdate(@Valid @ModelAttribute ProductDto productDto, @RequestParam(name="productId") Integer productId){
-        return productService.submitUpdate(productDto, productId);
+    public String submitUpdate(@Valid @ModelAttribute ProductDto productDto, @RequestParam(name="productId") Integer productId, BindingResult bindingResult, RedirectAttributes redirectAttributes){
+        return productService.submitUpdate(productDto, productId,bindingResult, redirectAttributes);
     }
+    @PostMapping("/delete")
+    public String deleteProduct(@RequestParam(name = "productId") Integer productId, RedirectAttributes redirectAttributes){
+        return productService.deleteProduct(productId, redirectAttributes);
+    }
+
 }

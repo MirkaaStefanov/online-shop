@@ -110,7 +110,7 @@
     </div>
     <div class="form-group">
       <label for="expires_in">Expiration date:</label>
-      <input type="date" id="expires_in" th:field="*{expires_in}" required>
+      <input type="date" id="expires_in" th:field="*{expires_in}">
       <span th:if="${#fields.hasErrors('expires_in')}" th:errors="*{expires_in}"></span>
     </div>
     <div class="form-group">

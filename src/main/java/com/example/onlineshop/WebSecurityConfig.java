@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -27,7 +28,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/", "/user/**","/product/filter","/product/search").permitAll()
                         .requestMatchers( "/product/filter").permitAll()
-                        .requestMatchers("/order/show", "/order/show-all","/order/change-status", "/product/add/**", "/product/submit/**", "/employee/show-all").hasAnyAuthority("Employee")
+                        .requestMatchers("/order/show", "/order/show-all","/order/change-status", "/product/add/**", "/product/submit/**", "/employee/show-all", "/product/delete").hasAnyAuthority("Employee")
                         .requestMatchers("/user/employee/registration","/employee/show-all").hasAnyAuthority("Admin")
                         .anyRequest().authenticated()
                 )
@@ -35,7 +36,11 @@ public class WebSecurityConfig {
                         .loginPage("/user/login")
                         .permitAll()
                 )
-                .logout((logout) -> logout.logoutSuccessUrl("/").permitAll());
+                .logout((logout) -> logout.logoutSuccessUrl("/").permitAll())
+                .sessionManagement((session) -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+        );
+
 
         return http.build();
     }

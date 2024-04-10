@@ -13,10 +13,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -29,106 +27,27 @@ import java.util.Optional;
 public class OrderController {
 
     @Autowired
-    private OrderRepository orderRepository;
-    @Autowired
-    private OrderItemRepository orderItemRepository;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private ShoppingCartRepository shoppingCartRepository;
-    @Autowired
-    private ShoppingCartService shoppingCartService;
+    private OrderService orderService;
 
     @PostMapping("/add")
-    private String addOrder() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        User user = userRepository.getUserByUsername(username);
-
-        ShoppingCart shoppingCart = user.getShoppingCart();
-        List<CartItem> cartItemList = (List<CartItem>) shoppingCart.getItems();
-
-        Order order = new Order();
-        order.setOrderItems(new ArrayList<>());
-        orderRepository.save(order);
-
-        for (int i = 0; i < cartItemList.size(); i++) {
-            if (cartItemList.get(i).getQuantity() > cartItemList.get(i).getProduct().getQuantity()) {
-                //TODO add message
-                return "redirect:/cart/view";
-            }
-            OrderItem orderItem = new OrderItem();
-            orderItem.setOrder(order);
-            orderItem.setProduct(cartItemList.get(i).getProduct());
-            orderItem.setQuantity(cartItemList.get(i).getQuantity());
-            cartItemList.get(i).getProduct().setQuantity(cartItemList.get(i).getProduct().getQuantity() - cartItemList.get(i).getQuantity());
-            orderItem.setPriceEach(cartItemList.get(i).getPrice());
-            orderItemRepository.save(orderItem);
-            order.getOrderItems().add(orderItem);
-        }
-        order.setUser(user);
-        order.setOrderDate(LocalDateTime.now());
-        order.setOrderStatus(OrderStatus.NEW);
-        order.setPrice(shoppingCart.getTotalPrice());
-        orderRepository.save(order);
-
-
-        for (int i = 0; i < shoppingCart.getItems().size(); i++) {
-            shoppingCartService.deleteItem(((List<CartItem>) shoppingCart.getItems()).get(i).getId());
-            i--;
-        }
-
-        return "order/order";
+    private String addOrder(RedirectAttributes redirectAttributes) {
+        return orderService.addOrder(redirectAttributes);
     }
 
     @GetMapping("/show")
-    public String showAllOrders(Model model) {
-        model.addAttribute("allOrders", orderRepository.findAll());
-        return "order/show-all";
+    public String showAllOrders(Model model, @ModelAttribute("message")String message) {
+        return orderService.showAllOrders(model, message);
     }
 
     @PostMapping("/change-status")
-    public String changeStatus(@RequestParam("orderId") Integer id) {
-
-        Optional<Order> optionalOrder = orderRepository.findById(id);
-        Order order;
-        if (optionalOrder.isPresent()) {
-            order = optionalOrder.get();
-        } else {
-            //TODO message
-            return "redirect:/order/show-all";
-        }
-
-        switch (order.getOrderStatus().getStatusNum()) {
-            case (1):
-                order.setOrderStatus(OrderStatus.PROCESSING);
-                break;
-            case (2):
-                order.setOrderStatus(OrderStatus.DELIVERING);
-            case (3):
-                order.setOrderStatus(OrderStatus.COMPLETED);
-            default:
-                //TODO message
-        }
-        orderRepository.save(order);
-
-        return "redirect:/order/show";
+    public String changeStatus(@RequestParam("orderId") Integer id, RedirectAttributes redirectAttributes) {
+        return orderService.changeStatus(id, redirectAttributes);
     }
 
     @GetMapping("/show-order")
-    public String showOneOrder(@RequestParam("orderId") Integer orderId, Model model) {
-
-        Optional<Order> optionalOrder = orderRepository.findById(orderId);
-        Order order;
-        if (optionalOrder.isPresent()) {
-            order = optionalOrder.get();
-        } else {
-            //TODO message
-            return "redirect:/order/show-all";
-        }
-
-        model.addAttribute("order", order);
-
-        return "order/show";
+    public String showOneOrder(@RequestParam("orderId") Integer orderId, Model model, RedirectAttributes redirectAttributes) {
+        return orderService.showOneOrder(orderId, model, redirectAttributes);
     }
+
+
 }

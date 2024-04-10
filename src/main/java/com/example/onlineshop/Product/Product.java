@@ -37,9 +37,6 @@ public class Product {
     @Column(columnDefinition = "MEDIUMBLOB")
     private String image;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<CartItem> cartItemList;
-
     public Integer getId() {
         return id;
     }
@@ -106,11 +103,4 @@ public class Product {
         this.image = image;
     }
 
-    public List<CartItem> getCartItemList() {
-        return cartItemList;
-    }
-
-    public void setCartItemList(List<CartItem> cartItemList) {
-        this.cartItemList = cartItemList;
-    }
 }

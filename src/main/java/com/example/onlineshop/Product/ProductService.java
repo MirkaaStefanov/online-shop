@@ -1,7 +1,9 @@
 package com.example.onlineshop.Product;
 
+import com.example.onlineshop.Order.OrderItem;
+import com.example.onlineshop.Order.OrderItemRepository;
 import com.example.onlineshop.ProductType.ProductTypeRepository;
-import com.example.onlineshop.ShoppingCart.AddToCardDto;
+import com.example.onlineshop.ShoppingCart.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.parameters.P;
@@ -27,13 +29,21 @@ public class ProductService {
 
     @Autowired
     private ProductTypeRepository productTypeRepository;
+    @Autowired
+    private CartItemRepository cartItemRepository;
+    @Autowired
+    private ShoppingCartService shoppingCartService;
+    @Autowired
+    private ShoppingCartRepository shoppingCartRepository;
+    @Autowired
+    private OrderItemRepository orderItemRepository;
 
     public String foodForm(Model model) {
         model.addAttribute("productDto", new ProductDto());
         return "product/form-food";
     }
 
-    public String addFood( ProductDto productDto, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
+    public String addFood(ProductDto productDto, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             return "product/form-food";
         }
@@ -154,33 +164,12 @@ public class ProductService {
 
         List<Product> filteredProduct = productRepository.filter(name, categoryId, minPrice, maxPrice);
         model.addAttribute("products", filteredProduct);
+        model.addAttribute("categories", productTypeRepository.findAll());
         model.addAttribute("addToCardDto", new AddToCardDto());
         return "product/show";
 
 
     }
-//    @GetMapping("/filter")
-//    public String filterProducts(@ModelAttribute ProductFilterDto productFilterDto, Model model) {
-//
-//        if (productFilterDto.name == null) {
-//            productFilterDto.name = ""; // Set default value or handle as needed
-//        }
-////        if (productFilterDto.typeId==null) {
-////            productFilterDto.typeId = 0; // Set default value or handle as needed
-////        }
-////        if (productFilterDto.minPrice == null) {
-////            productFilterDto.minPrice = 0; // Set default value or handle as needed
-////        }
-////        if (productFilterDto.maxPrice == null) {
-////            productFilterDto.maxPrice = Integer.MAX_VALUE; // Set default value or handle as needed
-////        }
-//
-//        List<Product> filteredProduct = productRepository.filter(productFilterDto.name, productFilterDto.getType().getId(), productFilterDto.minPrice, productFilterDto.maxPrice);
-//        model.addAttribute("products", filteredProduct);
-//        model.addAttribute("addToCardDto", new AddToCardDto());
-//        return "product/show";
-//    }
-
 
     public String search(String search, Model model) {
         try {
@@ -193,37 +182,98 @@ public class ProductService {
         return "product/show";
     }
 
-    public String update(Integer productId, Model model){
+    public String update(Integer productId, Model model) {
         model.addAttribute("updateProduct", new ProductDto());
         model.addAttribute("productId", productId);
         model.addAttribute("allTypes", productTypeRepository.findAll());
         return "product/update";
     }
 
-    public String submitUpdate(ProductDto productDto, Integer productId){
+    public String submitUpdate(ProductDto productDto, Integer productId, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         Product product;
         String productTypeName = productDto.getProductType().getName();
-        if(productTypeName.equalsIgnoreCase("Accessories")){
-        product = productMapper.toAccessoryEntity(productDto);
-        }
-        else if(productTypeName.equalsIgnoreCase("Drink")){
+        if (productTypeName.equalsIgnoreCase("Accessories")) {
+            product = productMapper.toAccessoryEntity(productDto);
+        } else if (productTypeName.equalsIgnoreCase("Drink")) {
+            if (bindingResult.hasErrors()) {
+                return "product/update";
+            }
+            if (productDto.getExpires_in() == null) {
+                return "product/update";
+            }
             product = productMapper.toDrinkEntity(productDto);
-        }
-        else if(productTypeName.equalsIgnoreCase("Food")){
+        } else if (productTypeName.equalsIgnoreCase("Food")) {
+            if (bindingResult.hasErrors()) {
+                return "product/update";
+            }
+            if (productDto.getExpires_in() == null) {
+                return "product/update";
+            }
             product = productMapper.toFoodEntity(productDto);
-        }
-        else if(productTypeName.equalsIgnoreCase("Railing")){
+        } else if (productTypeName.equalsIgnoreCase("Railing")) {
+            if (bindingResult.hasErrors()) {
+                return "product/update";
+            }
+            if (productDto.getColor() == null) {
+                return "product/update";
+            }
             product = productMapper.toRailingEntity(productDto);
-        }
-        else if(productTypeName.equalsIgnoreCase("Sanitary")){
+        } else if (productTypeName.equalsIgnoreCase("Sanitary")) {
+            if (bindingResult.hasErrors()) {
+                return "product/update";
+            }
+            if (productDto.getColor() == null) {
+                return "product/update";
+            }
             product = productMapper.toSanitaryEntity(productDto);
-        }
-        else {
+        } else {
+            if (bindingResult.hasErrors()) {
+                return "product/update";
+            }
             product = productMapper.toOthersEntity(productDto);
         }
 
         product.setId(productId);
         productRepository.save(product);
+        redirectAttributes.addFlashAttribute("message", "Product is updated");
+        return "redirect:/";
+    }
+
+    public String deleteProduct(Integer productId, RedirectAttributes redirectAttributes) {
+        Optional<Product> optionalProduct = productRepository.findById(productId);
+        Product product;
+        if (optionalProduct.isPresent()) {
+            product = optionalProduct.get();
+        } else {
+            redirectAttributes.addFlashAttribute("message", "Product could not be found");
+            return "redirect:/";
+        }
+
+
+        List<ShoppingCart> shoppingCarts = (List<ShoppingCart>) shoppingCartRepository.findAll();
+
+        for (ShoppingCart shoppingCart : shoppingCarts) {
+            List<CartItem> cartItemList = (List<CartItem>) shoppingCart.getItems();
+            for (int i = 0; i < cartItemList.size(); i++) {
+                if (cartItemList.get(i).getProduct().equals(product)) {
+                    CartItem cartItemForDelete = cartItemList.get(i);
+                    shoppingCart.getItems().remove(cartItemList.get(i));
+                    cartItemRepository.delete(cartItemForDelete);
+                    shoppingCartRepository.save(shoppingCart);
+                    break;
+                }
+            }
+        }
+        List<OrderItem> orderItemList = (List<OrderItem>) orderItemRepository.findAll();
+        for (int i = 0; i <orderItemList.size() ; i++) {
+            if(orderItemList.get(i).getProduct().equals(product)){
+                redirectAttributes.addFlashAttribute("message", "Product is ordered, and cannot be deleted");
+                return "redirect:/";
+            }
+        }
+        productRepository.delete(product);
+        redirectAttributes.addFlashAttribute("message", "Product is deleted successfully");
+
         return "redirect:/";
     }
 

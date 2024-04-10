@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,17 +22,17 @@ public class ShoppingCartController {
     private ShoppingCartService shoppingCartService;
 
     @PostMapping("/addToCart")
-    public String addToCart(@ModelAttribute AddToCardDto addToCardDto) {
-       return shoppingCartService.addToCart(addToCardDto);
+    public String addToCart(@ModelAttribute AddToCardDto addToCardDto, RedirectAttributes redirectAttributes) {
+       return shoppingCartService.addToCart(addToCardDto, redirectAttributes);
     }
 
     @GetMapping("/view")
-    public String showCart(Model model) {
-       return shoppingCartService.showCart(model);
+    public String showCart(Model model,@ModelAttribute("message")String message) {
+       return shoppingCartService.showCart(model, message);
     }
     @PostMapping("/delete")
-    public String deleteItem(@RequestParam(name = "itemId") Integer id){
-        return shoppingCartService.deleteItem(id);
+    public String deleteItem(@RequestParam(name = "itemId") Integer id, RedirectAttributes redirectAttributes){
+        return shoppingCartService.deleteItem(id, redirectAttributes);
     }
 
 }

@@ -19,17 +19,17 @@ public class IndexController {
     private ProductTypeRepository productTypeRepository;
 
     @GetMapping("/")
-    public String homeAllProducts(Model model){
+    public String homeAllProducts(@ModelAttribute("message") String message, Model model) {
 
-        model.addAttribute("allProducts", productRepository.findAll());
+        model.addAttribute("products", productRepository.findAll());
         model.addAttribute("addToCardDto", new AddToCardDto());
-        model.addAttribute("allTypes", productTypeRepository.findAll());
+        model.addAttribute("categories", productTypeRepository.findAll());
         model.addAttribute("productFilterDto", new ProductFilterDto());
 
-       // model.addAttribute("successfulAddedProduct", message);
-        return "index";
-    }
+        model.addAttribute("message", message);
 
+        return "product/show";
+    }
 
 
 }
