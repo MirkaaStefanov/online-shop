@@ -281,4 +281,15 @@ public class ProductService {
         return "redirect:/";
     }
 
+    public String outOfStockProducts(Model model){
+        List<Product> outOfStockProducts = productRepository.outOfStockProducts();
+        model.addAttribute("products", outOfStockProducts);
+        model.addAttribute("addToCardDto", new AddToCardDto());
+        model.addAttribute("categories", productTypeRepository.findAll());
+        model.addAttribute("productFilterDto", new ProductFilterDto());
+
+        return "product/show";
+    }
+
+
 }

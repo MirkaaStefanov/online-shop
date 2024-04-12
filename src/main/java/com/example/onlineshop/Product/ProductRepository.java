@@ -18,4 +18,9 @@ public interface ProductRepository extends CrudRepository<Product,Integer> {
             "AND (:productTypeId IS NULL OR p.productType.id = :productTypeId) " +
             "AND (:minPrice IS NULL OR :maxPrice IS NULL OR p.price BETWEEN :minPrice AND :maxPrice) AND p.quantity > 0 ORDER BY p.expires_in")
     List<Product> filter(String name, Integer productTypeId, double minPrice, double maxPrice);
+
+    @Query("Select p FROM Product p WHERE p.quantity < 1 ORDER BY p.expires_in")
+    List <Product> outOfStockProducts();
+
+
 }

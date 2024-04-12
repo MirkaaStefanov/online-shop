@@ -108,4 +108,9 @@ public class ProductController {
         return productService.deleteProduct(productId, redirectAttributes);
     }
 
+    @GetMapping("/outOfStock")
+    public String outOfStockProducts(Model model){
+        return productService.outOfStockProducts(model);
+    }
+
 }
