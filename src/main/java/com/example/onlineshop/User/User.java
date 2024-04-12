@@ -17,7 +17,6 @@ public class User {
     private String email;
     private String role;
     private boolean enabled;
-    private int price;
 
     @OneToOne
     @JoinColumn(name = "shopping_cart_id")
@@ -91,11 +90,4 @@ public class User {
         this.email = email;
     }
 
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
 }
