@@ -152,16 +152,20 @@ public class ProductService {
                                  Double maxPrice,
                                  Model model) {
         if (name == null) {
-            name = ""; // Set default value or handle as needed
+            name = "";
         }
 
         if (minPrice == null) {
-            minPrice = (double) 0; // Set default value or handle as needed
+            minPrice = (double) 0;
         }
         if (maxPrice == null) {
-            maxPrice = (double) Integer.MAX_VALUE; // Set default value or handle as needed
+            maxPrice = (double) Integer.MAX_VALUE;
         }
-
+        if (minPrice > maxPrice) {
+            double maxPrice1 = maxPrice;
+            maxPrice = minPrice;
+            minPrice=maxPrice1;
+        }
         List<Product> filteredProduct = productRepository.filter(name, categoryId, minPrice, maxPrice);
         model.addAttribute("products", filteredProduct);
         model.addAttribute("categories", productTypeRepository.findAll());
@@ -265,8 +269,8 @@ public class ProductService {
             }
         }
         List<OrderItem> orderItemList = (List<OrderItem>) orderItemRepository.findAll();
-        for (int i = 0; i <orderItemList.size() ; i++) {
-            if(orderItemList.get(i).getProduct().equals(product)){
+        for (int i = 0; i < orderItemList.size(); i++) {
+            if (orderItemList.get(i).getProduct().equals(product)) {
                 redirectAttributes.addFlashAttribute("message", "Product is ordered, and cannot be deleted");
                 return "redirect:/";
             }
