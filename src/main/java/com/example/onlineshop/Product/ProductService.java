@@ -183,6 +183,7 @@ public class ProductService {
             model.addAttribute("products", productRepository.findProductByNameOrCategory(search));
         }
         model.addAttribute("addToCardDto", new AddToCardDto());
+        model.addAttribute("categories", productTypeRepository.findAll());
         return "product/show";
     }
 
@@ -286,7 +287,6 @@ public class ProductService {
         model.addAttribute("products", outOfStockProducts);
         model.addAttribute("addToCardDto", new AddToCardDto());
         model.addAttribute("categories", productTypeRepository.findAll());
-        model.addAttribute("productFilterDto", new ProductFilterDto());
 
         return "product/show";
     }

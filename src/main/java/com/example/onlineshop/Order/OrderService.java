@@ -33,7 +33,6 @@ public class OrderService {
     @Autowired
     private ShoppingCartService shoppingCartService;
 
-    @PostMapping("/add")
     public String addOrder(RedirectAttributes redirectAttributes) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
@@ -48,8 +47,8 @@ public class OrderService {
 
         for (int i = 0; i < cartItemList.size(); i++) {
             if (cartItemList.get(i).getQuantity() > cartItemList.get(i).getProduct().getQuantity()) {
-                String message = " We apologize. Out of stock" + cartItemList.get(i).getQuantity() + " " + cartItemList.get(i).getProduct().getName()
-                        + "We have" + cartItemList.get(i).getProduct().getQuantity() + "left";
+                String message = " We apologize. Out of stock " + cartItemList.get(i).getQuantity() + " " + cartItemList.get(i).getProduct().getName()
+                        + "We have " + cartItemList.get(i).getProduct().getQuantity() + " left";
 
                 redirectAttributes.addFlashAttribute("message", message);
                 return "redirect:/cart/view";

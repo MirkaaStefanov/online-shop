@@ -24,7 +24,6 @@ public class IndexController {
         model.addAttribute("products", productRepository.findAll());
         model.addAttribute("addToCardDto", new AddToCardDto());
         model.addAttribute("categories", productTypeRepository.findAll());
-        model.addAttribute("productFilterDto", new ProductFilterDto());
 
         model.addAttribute("message", message);
 
