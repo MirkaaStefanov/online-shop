@@ -95,6 +95,15 @@
             background-color: #0056b3;
             text-decoration: none;
         }
+        .message-box {
+            background-color: #FF5733; /* Green background */
+            color: #fff; /* White text */
+            text-align: center;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
 
     </style>
     <script th:inline="javascript">
@@ -111,7 +120,7 @@
 <body>
 <header th:insert="~{header.html}"/>
 
-<div id="messageDiv" th:if="${message}" style="color: green;">
+<div th:if="${message != null and message != ''}" id="messageDiv" class="message-box">
     <p th:text="${message}"></p>
 </div>
 
@@ -126,7 +135,7 @@
                 <p th:text="'Quantity: ' + ${item.quantity}"/>
                 <form action="#" th:action="@{/cart/delete}" method="post">
                     <input type="hidden" name="itemId" th:value="${item.id}">
-                    <button type="submit" class="remove-button">Remove</button>
+                    <button type="submit" class="btn btn-danger">Remove</button>
                 </form>
             </div>
         </div>

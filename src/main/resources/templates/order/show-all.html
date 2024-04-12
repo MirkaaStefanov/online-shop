@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
+    <style>
+        .message-box {
+            background-color: #FF5733; /* Green background */
+            color: #fff; /* White text */
+            text-align: center;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
     <meta charset="UTF-8">
     <title>Show orders</title>
     <script th:inline="javascript">
@@ -16,7 +27,7 @@
 <body>
 <header th:insert="~{header.html}"></header>
 
-<div id="messageDiv" th:if="${message}" style="color: green;">
+<div th:if="${message != null and message != ''}" id="messageDiv" class="message-box">
     <p th:text="${message}"></p>
 </div>
 

@@ -3,6 +3,7 @@ package com.example.onlineshop.ShoppingCart;
 import jakarta.persistence.*;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -44,7 +45,10 @@ public class ShoppingCart {
     }
 
     public int getItemsNumber() {
-        this.itemsNumber = this.items.size();
+   List<CartItem> cartItemList = (List<CartItem>) items;
+        for (int i = 0; i < cartItemList.size(); i++) {
+            this.itemsNumber += cartItemList.get(i).getQuantity();
+        }
         return itemsNumber;
     }
 

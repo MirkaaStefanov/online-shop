@@ -138,13 +138,18 @@
           margin-bottom: 20px;
     }
           .message-box {
-            background-color: #4caf50; /* Green background */
+            background-color: #FF5733; /* Green background */
             color: #fff; /* White text */
             text-align: center;
             padding: 10px;
             margin-bottom: 20px;
             border-radius: 5px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn btn-primary {
+        margin-top: 10px;
+        margin-bottom: 10px;
         }
     </style>
     <script th:inline="javascript">
@@ -195,7 +200,7 @@
                     <button class="btn btn-outline-light" type="submit">Filter</button>
                 </form>
                 <form action="#" th:action="@{/product/outOfStock}" method="get" sec:authorize="hasAuthority('Employee')">
-                    <button class="btn btn-primary" type="submit">Out of Stock</button>
+                    <button class="btn btn-primary" style="margin-top: 10px;" type="submit">Out of Stock</button>
                 </form>
             </div>
         </div>
@@ -216,16 +221,16 @@
                                     sec:authorize="hasAuthority('User')">
                                 <img src="https://cdn.discordapp.com/attachments/1218924915588071465/1228356394512814161/add_to_cart.png?ex=662bbf0a&is=66194a0a&hm=89db4a55dcfdfb245f57db592c025a75dab2ca4e2667336f0252fa5a2860a1f8&" height="40" width="225"/>
                             </a>
-                            <form sec:authorize="hasAuthority('Employee')" action="#" th:action="@{/product/update}"
-                                  method="get">
-                                <input type="hidden" name="productId" th:value="${product.id}"/>
-                                <button class="btn btn-primary" type="submit">Update</button>
-                            </form>
-                            <form sec:authorize="hasAuthority('Employee')" action="#" th:action="@{/product/delete}"
-                                  method="post">
-                                <input type="hidden" name="productId" th:value="${product.id}"/>
-                                <button class="btn btn-primary" type="submit">Delete</button>
-                            </form>
+                            <div class="product-actions">
+                                <form sec:authorize="hasAuthority('Employee')" action="#" th:action="@{/product/update}" method="get" class="d-inline">
+                                    <input type="hidden" name="productId" th:value="${product.id}"/>
+                                    <button class="btn btn-primary" type="submit">Update</button>
+                                </form>
+                                <form sec:authorize="hasAuthority('Employee')" action="#" th:action="@{/product/delete}" method="post" class="d-inline">
+                                    <input type="hidden" name="productId" th:value="${product.id}"/>
+                                    <button class="btn btn-danger" type="submit">Delete</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                     <!-- Modal -->
