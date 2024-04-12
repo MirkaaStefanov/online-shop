@@ -11,12 +11,17 @@
             border-radius: 5px;
             padding: 20px;
             margin-bottom: 20px;
+
         }
 
+
         .product-image {
-            max-width: 100%;
-            max-height: 200px;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto; /* Center the image horizontally */
+            display: block; /* Ensure it's a block-level element */
             margin-bottom: 10px;
+            object-fit: scale-down;
         }
 
         .product-title {
@@ -38,34 +43,34 @@
         }
 
        .filter-section {
-            background-color: #f8f9fa;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 20px;
-            margin-bottom: 20px;
-            width: 250px; /* Adjust width as needed */
-            position: sticky;
-            top: 20px;
-            left: 20px; /* Adjust the left position */
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
+    background-color: rgba(0, 123, 255, 0.8); /* Син цвят с по-ниска стойност за прозрачност */
+    border: 1px solid #007bff;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+    width: 250px; /* Променете ширината според нуждите */
+    position: sticky;
+    top: 20px;
+    left: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
 
-        .filter-section h2 {
-            color: #333;
+       .filter-section h2 {
+            color: #fff;
             margin-bottom: 20px;
             font-size: 1.25rem;
             border-bottom: 1px solid #ddd;
             padding-bottom: 10px;
         }
 
-        .form-group label {
-            color: #333;
+       .form-group label {
+            color: #fff;
             margin-bottom: .5rem;
         }
 
-        .form-group input[type="text"],
-        .form-group input[type="number"],
-        .form-group select {
+       .form-group input[type="text"],
+       .form-group input[type="number"],
+       .form-group select {
             width: 100%;
             padding: .375rem .75rem;
             font-size: 1rem;
@@ -78,16 +83,16 @@
             transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
         }
 
-        .form-group input[type="number"] {
+       .form-group input[type="number"] {
             -moz-appearance: textfield;
         }
 
-        .form-group input[type="text"]::placeholder,
-        .form-group input[type="number"]::placeholder {
+       .form-group input[type="text"]::placeholder,
+       .form-group input[type="number"]::placeholder {
             color: #6c757d;
         }
 
-        .form-group select {
+       .form-group select {
             padding: .375rem .75rem;
             font-size: 1rem;
             line-height: 1.5;
@@ -99,31 +104,48 @@
             transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
         }
 
-        .form-group button[type="submit"] {
+       .form-group button[type="submit"] {
             width: 100%;
             padding: .375rem .75rem;
             font-size: 1rem;
             line-height: 1.5;
             border-radius: .25rem;
-            color: #fff;
-            background-color: #007bff;
+            color: #007bff;
+            background-color: #fff;
             border: 1px solid #007bff;
             cursor: pointer;
             margin-top: 10px;
         }
 
-        .form-group button[type="submit"]:hover {
+       .form-group button[type="submit"]:hover {
             background-color: #0056b3;
             border-color: #0056b3;
         }
-.input-group {
+       .input-group {
         display: flex;
         align-items: center;
     }
 
-    .input-group-text {
+        .input-group-text {
         margin: 0 5px;
     }
+      .form-control {
+    margin-right: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+      .header {
+          margin-bottom: 20px;
+    }
+          .message-box {
+            background-color: #4caf50; /* Green background */
+            color: #fff; /* White text */
+            text-align: center;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
     </style>
     <script th:inline="javascript">
     setTimeout(function() {
@@ -137,10 +159,10 @@
 </head>
 <body>
 
-<header th:insert="~{header.html}"></header>
+<header class="header" th:insert="~{header.html}"></header>
 <http create-session="ifRequired"></http>
 
-<div id="messageDiv" th:if="${message}" style="color: green;">
+<div th:if="${message != null and message != ''}" id="messageDiv" class="message-box">
     <p th:text="${message}"></p>
 </div>
 
@@ -157,10 +179,9 @@
                     </div>
                     <div class="form-group">
                         <label for="category">Category:</label>
-                        <select id="category" name="categoryId">
+                        <select id="category" name="categoryId" class="form-control">
                             <option value="">All</option>
-                            <option th:each="category : ${categories}" th:value="${category.id}"
-                                    th:text="${category.name}"></option>
+                            <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}" class="form-control"></option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -171,7 +192,7 @@
                         </div>
                     </div>
 
-                    <button type="submit">Filter</button>
+                    <button class="btn btn-outline-light" type="submit">Filter</button>
                 </form>
                 <form action="#" th:action="@{/product/outOfStock}" method="get" sec:authorize="hasAuthority('Employee')">
                     <button class="btn btn-primary" type="submit">Out of Stock</button>
@@ -180,7 +201,7 @@
         </div>
         <!-- Products Section -->
         <div class="col-md-9"> <!-- 4/5 width on medium-sized screens and above -->
-            <div class="row row-cols-1 row-cols-md-2 g-4">
+            <div class="row row-cols-1 row-cols-md-3 g-4">
                 <!-- Product Cards -->
                 <div class="col" th:each="product : ${products}">
                     <div class="product-card">
@@ -190,11 +211,11 @@
                             <h5 class="product-title" th:text="${product.name}">Product Name</h5>
                             <p class="product-type" th:text="${product.productType.name}"/>
                             <p class="product-price" th:text="'Price: ' + ${product.price} + ' BGN'">Price</p>
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            <a type="button" data-bs-toggle="modal"
                                     th:attr="data-bs-target='#exampleModal'+${product.id}"
                                     sec:authorize="hasAuthority('User')">
-                                Add to Cart
-                            </button>
+                                <img src="https://cdn.discordapp.com/attachments/1218924915588071465/1228356394512814161/add_to_cart.png?ex=662bbf0a&is=66194a0a&hm=89db4a55dcfdfb245f57db592c025a75dab2ca4e2667336f0252fa5a2860a1f8&" height="40" width="225"/>
+                            </a>
                             <form sec:authorize="hasAuthority('Employee')" action="#" th:action="@{/product/update}"
                                   method="get">
                                 <input type="hidden" name="productId" th:value="${product.id}"/>
