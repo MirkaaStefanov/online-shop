@@ -75,5 +75,16 @@ public class IntegrationTests {
 
 
     }
+    @Test
+    void testWhenLogin() throws Exception {
+        this.mockMvc.perform(get("/user/login"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("Login Form")))
+                .andExpect(content().string(containsString("Username")))
+                .andExpect(content().string(containsString("Email")))
+                .andExpect(content().string(containsString("Password:")))
+                .andExpect(content().string(containsString("Login")));
+    }
 
 }
