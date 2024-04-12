@@ -2,10 +2,8 @@ package com.example.onlineshop;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.containsString;
@@ -16,7 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class OrderControllerIntegrationTests {
+public class IntegrationTests {
 
     @Autowired
     private MockMvc mockMvc;
@@ -43,6 +41,38 @@ public class OrderControllerIntegrationTests {
                 .andExpect(content().string(containsString("Name:")))
                 .andExpect(content().string(containsString("Category:")))
                 .andExpect(content().string(containsString("Price Range:")));
+
+    }
+
+    @Test
+    void testWhenSignUp() throws Exception {
+        this.mockMvc.perform(get("/user/registration/add"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("Registration")))
+                .andExpect(content().string(containsString("Username:")))
+                .andExpect(content().string(containsString("Email:")))
+                .andExpect(content().string(containsString("Password:")))
+                .andExpect(content().string(containsString("Repeat password:")))
+                .andExpect(content().string(containsString("Register")));
+
+
+    }
+
+    @Test
+    void testWhenSignUpEmployee() throws Exception {
+        this.mockMvc.perform(get("/user/employee/registration"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("Registration")))
+                .andExpect(content().string(containsString("First name:")))
+                .andExpect(content().string(containsString("Last name:")))
+                .andExpect(content().string(containsString("Age:")))
+                .andExpect(content().string(containsString("Salary:")))
+                .andExpect(content().string(containsString("Password:")))
+                .andExpect(content().string(containsString("Repeat password:")))
+                .andExpect(content().string(containsString("Register")));
+
 
     }
 
