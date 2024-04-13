@@ -2,6 +2,7 @@ package com.example.onlineshop.Order;
 
 import com.example.onlineshop.Product.Product;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 
 @Entity
 @Table(name = "order_items")
@@ -19,6 +20,7 @@ public class OrderItem {
     private Product product;
 
     private double priceEach;
+    @Min(0)
     private int quantity;
 
     public Integer getId() {
