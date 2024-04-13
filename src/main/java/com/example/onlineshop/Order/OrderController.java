@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -30,8 +31,8 @@ public class OrderController {
     private OrderService orderService;
 
     @PostMapping("/add")
-    private String addOrder(RedirectAttributes redirectAttributes) {
-        return orderService.addOrder(redirectAttributes);
+    private String addOrder(RedirectAttributes redirectAttributes, BindingResult bindingResult) {
+        return orderService.addOrder(redirectAttributes, bindingResult);
     }
 
     @GetMapping("/show")
