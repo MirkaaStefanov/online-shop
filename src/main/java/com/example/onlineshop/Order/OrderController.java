@@ -54,5 +54,9 @@ public class OrderController {
     public String sortOrder(@RequestParam(name = "status") String status, Model model) {
         return orderService.sortOrder(status, model);
     }
+    @GetMapping("/success")
+    public String successMessage(){
+        return "order/order";
+    }
 
 }

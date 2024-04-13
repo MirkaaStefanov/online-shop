@@ -76,7 +76,7 @@ public class OrderService {
             i--;
         }
 
-        return "order/order";
+        return "redirect:/order/success";
     }
 
     public String showAllOrders(Model model, String message) {
