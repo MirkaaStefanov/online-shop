@@ -222,7 +222,7 @@
                             <a type="button" data-bs-toggle="modal"
                                     th:attr="data-bs-target='#exampleModal'+${product.id}"
                                     sec:authorize="hasAuthority('User')">
-                                <img src="https://cdn.discordapp.com/attachments/1218924915588071465/1228356394512814161/add_to_cart.png?ex=662bbf0a&is=66194a0a&hm=89db4a55dcfdfb245f57db592c025a75dab2ca4e2667336f0252fa5a2860a1f8&" height="40" width="225"/>
+                                <img src="https://cdn.discordapp.com/attachments/1218924915588071465/1228356394512814161/add_to_cart.png?ex=662bbf0a&is=66194a0a&hm=89db4a55dcfdfb245f57db592c025a75dab2ca4e2667336f0252fa5a2860a1f8&" height="30" width="169"/>
                             </a>
                             <div class="product-actions">
                                 <form sec:authorize="hasAuthority('Employee')" action="#" th:action="@{/product/update}" method="get" class="d-inline">
