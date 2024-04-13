@@ -169,7 +169,7 @@ public class ProductService {
         model.addAttribute("products", filteredProduct);
         model.addAttribute("categories", productTypeRepository.findAll());
         model.addAttribute("addToCardDto", new AddToCardDto());
-        return "product/show";
+        return "index";
 
 
     }
@@ -180,7 +180,7 @@ public class ProductService {
         model.addAttribute("categories", productTypeRepository.findAll());
         model.addAttribute("addToCardDto", new AddToCardDto());
 
-        return "product/show";
+        return "index";
     }
 
     public String search(String search, Model model) {
@@ -192,7 +192,7 @@ public class ProductService {
         }
         model.addAttribute("addToCardDto", new AddToCardDto());
         model.addAttribute("categories", productTypeRepository.findAll());
-        return "product/show";
+        return "index";
     }
 
     public String update(Integer productId, Model model) {
@@ -296,7 +296,7 @@ public class ProductService {
         model.addAttribute("addToCardDto", new AddToCardDto());
         model.addAttribute("categories", productTypeRepository.findAll());
 
-        return "product/show";
+        return "index";
     }
 
 

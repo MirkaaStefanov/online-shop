@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>Home</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css">
+  <style>
+        .product-card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+
+        }
+
+
+        .product-image {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto; /* Center the image horizontally */
+            display: block; /* Ensure it's a block-level element */
+            margin-bottom: 10px;
+            object-fit: scale-down;
+        }
+
+        .product-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .product-type {
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .product-price {
+            font-size: 16px;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+       .filter-section {
+    background-color: rgba(0, 123, 255, 0.8); /* Син цвят с по-ниска стойност за прозрачност */
+    border: 1px solid #007bff;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+    width: 250px; /* Променете ширината според нуждите */
+    position: sticky;
+    top: 20px;
+    left: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+       .filter-section h2 {
+            color: #fff;
+            margin-bottom: 20px;
+            font-size: 1.25rem;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+
+       .form-group label {
+            color: #fff;
+            margin-bottom: .5rem;
+        }
+
+       .form-group input[type="text"],
+       .form-group input[type="number"],
+       .form-group select {
+            width: 100%;
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #495057;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #ced4da;
+            border-radius: .25rem;
+            transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        }
+
+       .form-group input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+       .form-group input[type="text"]::placeholder,
+       .form-group input[type="number"]::placeholder {
+            color: #6c757d;
+        }
+
+       .form-group select {
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            border-radius: .25rem;
+            color: #495057;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #ced4da;
+            transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        }
+
+       .form-group button[type="submit"] {
+            width: 100%;
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            border-radius: .25rem;
+            color: #007bff;
+            background-color: #fff;
+            border: 1px solid #007bff;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+       .form-group button[type="submit"]:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+       .input-group {
+        display: flex;
+        align-items: center;
+    }
+
+        .input-group-text {
+        margin: 0 5px;
+    }
+      .form-control {
+    margin-right: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+      .header {
+          margin-bottom: 20px;
+    }
+          .message-box {
+            background-color: #88B2FD; /* Green background */
+            color: #fff; /* White text */
+            text-align: center;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn btn-primary {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        }
+    </style>
+  <script th:inline="javascript">
+    setTimeout(function() {
+        var messageDiv = document.getElementById("messageDiv");
+        if (messageDiv) {
+            messageDiv.style.display = 'none';
+        }
+    }, 3000);
+
+    </script>
+</head>
+<body>
+
+<header class="header" th:insert="~{header.html}"></header>
+<http create-session="ifRequired"></http>
+
+<div th:if="${message != null and message != ''}" id="messageDiv" class="message-box">
+  <p th:text="${message}"></p>
+</div>
+
+<div class="container">
+  <div class="row">
+    <!-- Filter Section -->
+    <div class="col-md-3">
+      <div class="filter-section">
+        <h2>Filter</h2>
+        <form action="#" th:action="@{/product/filter}" method="get">
+          <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name">
+          </div>
+          <div class="form-group">
+            <label for="category">Category:</label>
+            <select id="category" name="categoryId" class="form-control">
+              <option value="">All</option>
+              <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}" class="form-control"></option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label >Price Range:</label>
+            <div class="input-group">
+              <input type="number" id="minPrice" name="minPrice" class="form-control" placeholder="Min">
+              <input type="number" id="maxPrice" name="maxPrice" class="form-control" placeholder="Max">
+            </div>
+          </div>
+          <button class="btn btn-outline-light" type="submit">Filter</button>
+        </form>
+        <form action="#" th:action="@{/product/outOfStock}" method="get" sec:authorize="hasAuthority('Employee')">
+          <button class="btn btn-primary" style="margin-top: 10px;" type="submit">Out of Stock</button>
+        </form>
+        <form action="#" th:action="@{/product/expirationDate}" method="get" sec:authorize="hasAuthority('Employee')">
+          <button class="btn btn-primary" style="margin-top: 10px;" type="submit">Expiration Date</button>
+        </form>
+      </div>
+    </div>
+    <!-- Products Section -->
+    <div class="col-md-9"> <!-- 4/5 width on medium-sized screens and above -->
+      <div class="row row-cols-1 row-cols-md-3 g-4">
+        <!-- Product Cards -->
+        <div class="col" th:each="product : ${products}">
+          <div class="product-card">
+            <img class="product-image" th:src="'data:image/jpeg;base64,' + ${product.image}"
+                 alt="Product Image"/>
+            <div class="product-details">
+              <h5 class="product-title" th:text="${product.name}">Product Name</h5>
+              <p class="product-type" th:text="${product.productType.name}"/>
+              <p class="product-price" th:text="'Price: ' + ${product.price} + ' BGN'">Price</p>
+              <p sec:authorize="hasAuthority('Employee')" class="product-type" th:text="'Quantity: ' + ${product.quantity}"/>
+              <a type="button" data-bs-toggle="modal"
+                 th:attr="data-bs-target='#exampleModal'+${product.id}"
+                 sec:authorize="hasAuthority('User')">
+                <img src="https://cdn.discordapp.com/attachments/1218924915588071465/1228356394512814161/add_to_cart.png?ex=662bbf0a&is=66194a0a&hm=89db4a55dcfdfb245f57db592c025a75dab2ca4e2667336f0252fa5a2860a1f8&" height="30" width="169"/>
+              </a>
+              <div class="product-actions">
+                <form sec:authorize="hasAuthority('Employee')" action="#" th:action="@{/product/update}" method="get" class="d-inline">
+                  <input type="hidden" name="productId" th:value="${product.id}"/>
+                  <button class="btn btn-primary" type="submit">Update</button>
+                </form>
+                <form sec:authorize="hasAuthority('Employee')" action="#" th:action="@{/product/delete}" method="post" class="d-inline">
+                  <input type="hidden" name="productId" th:value="${product.id}"/>
+                  <button class="btn btn-danger" type="submit">Delete</button>
+                </form>
+              </div>
+            </div>
+          </div>
+          <!-- Modal -->
+          <div class="modal fade" th:id="'exampleModal'+${product.id}" tabindex="-1"
+               aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" th:text="${product.name}">Modal title</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal"
+                          aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <img class="product-image" th:src="'data:image/jpeg;base64,' + ${product.image}"
+                       alt="Product Image"/>
+                  <form action="#" th:action="@{/cart/addToCart}" th:object="${addToCardDto}"
+                        method="post">
+                    <input type="hidden" name="productId" th:value="${product.id}">
+                    <input type="number" min="1" th:field="*{quantity}">
+                    <button class="btn btn-primary" type="submit">Add to cart</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/js/bootstrap.min.js"></script>
+</body>
+</html>

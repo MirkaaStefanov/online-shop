@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -73,6 +74,9 @@ public class ShoppingCartService {
             CartItem cartItem = new CartItem();
             cartItem.setProduct(product);
             cartItem.setQuantity(addToCardDto.getQuantity());
+            if(cartItem.getQuantity()<0){
+                return "redirect:/";
+            }
             cartItemRepository.save(cartItem);
             user.getShoppingCart().getItems().add(cartItem);
         }

@@ -31,8 +31,8 @@ public class OrderController {
     private OrderService orderService;
 
     @PostMapping("/add")
-    private String addOrder(RedirectAttributes redirectAttributes, BindingResult bindingResult) {
-        return orderService.addOrder(redirectAttributes, bindingResult);
+    private String addOrder(RedirectAttributes redirectAttributes) {
+        return orderService.addOrder(redirectAttributes);
     }
 
     @GetMapping("/show")

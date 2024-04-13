@@ -35,7 +35,7 @@ public class OrderService {
     @Autowired
     private ShoppingCartService shoppingCartService;
 
-    public String addOrder(RedirectAttributes redirectAttributes, BindingResult bindingResult) {
+    public String addOrder(RedirectAttributes redirectAttributes) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         User user = userRepository.getUserByUsername(username);
@@ -61,9 +61,6 @@ public class OrderService {
             orderItem.setQuantity(cartItemList.get(i).getQuantity());
             cartItemList.get(i).getProduct().setQuantity(cartItemList.get(i).getProduct().getQuantity() - cartItemList.get(i).getQuantity());
             orderItem.setPriceEach(cartItemList.get(i).getPrice());
-            if (bindingResult.hasErrors()){
-                return "redirect:/";
-            }
             orderItemRepository.save(orderItem);
             order.getOrderItems().add(orderItem);
         }

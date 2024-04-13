@@ -27,7 +27,7 @@ public class IndexController {
 
         model.addAttribute("message", message);
 
-        return "product/show";
+        return "index";
     }
 
 
