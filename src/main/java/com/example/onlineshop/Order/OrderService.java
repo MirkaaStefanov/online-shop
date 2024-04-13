@@ -66,7 +66,7 @@ public class OrderService {
         order.setUser(user);
         order.setOrderDate(LocalDateTime.now());
         order.setOrderStatus(OrderStatus.NEW);
-        order.setPrice(shoppingCart.getTotalPrice());
+       // order.setPrice(shoppingCart.getTotalPrice());
         orderRepository.save(order);
 
 

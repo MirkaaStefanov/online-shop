@@ -67,6 +67,14 @@ public class Order {
     }
 
     public double getPrice() {
+        List<OrderItem> orderItemList =(List<OrderItem>) orderItems;
+        double orderPrice = 0;
+
+        for (int i = 0; i < orderItemList.size(); i++) {
+           orderPrice += orderItemList.get(i).getPriceEach() * orderItemList.get(i).getQuantity();
+        }
+        setPrice(orderPrice);
+
         return price;
     }
 

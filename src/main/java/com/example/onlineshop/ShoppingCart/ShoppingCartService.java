@@ -65,8 +65,8 @@ public class ShoppingCartService {
 
         if (ifProductIsInCart == false) {
             if (addToCardDto.getQuantity() > product.getQuantity()) {
-                String message = " We apologize. Out of stock" + addToCardDto.getQuantity() + " " + product.getName()
-                        + "We have" + product.getQuantity() + "left";
+                String message = " We apologize. Out of stock " + addToCardDto.getQuantity() + " " + product.getName()
+                        + "We have " + product.getQuantity() + " left";
                 redirectAttributes.addFlashAttribute("message", message);
                 return "redirect:/";
             }
