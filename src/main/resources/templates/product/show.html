@@ -196,11 +196,13 @@
                             <input type="number" id="maxPrice" name="maxPrice" class="form-control" placeholder="Max">
                         </div>
                     </div>
-
                     <button class="btn btn-outline-light" type="submit">Filter</button>
                 </form>
                 <form action="#" th:action="@{/product/outOfStock}" method="get" sec:authorize="hasAuthority('Employee')">
                     <button class="btn btn-primary" style="margin-top: 10px;" type="submit">Out of Stock</button>
+                </form>
+                <form action="#" th:action="@{/product/expirationDate}" method="get" sec:authorize="hasAuthority('Employee')">
+                    <button class="btn btn-primary" style="margin-top: 10px;" type="submit">Expiration Date</button>
                 </form>
             </div>
         </div>
@@ -216,6 +218,7 @@
                             <h5 class="product-title" th:text="${product.name}">Product Name</h5>
                             <p class="product-type" th:text="${product.productType.name}"/>
                             <p class="product-price" th:text="'Price: ' + ${product.price} + ' BGN'">Price</p>
+                            <p sec:authorize="hasAuthority('Employee')" class="product-type" th:text="'Quantity: ' + ${product.quantity}"/>
                             <a type="button" data-bs-toggle="modal"
                                     th:attr="data-bs-target='#exampleModal'+${product.id}"
                                     sec:authorize="hasAuthority('User')">

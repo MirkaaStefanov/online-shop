@@ -7,7 +7,10 @@ import java.util.List;
 
 public interface OrderRepository extends CrudRepository<Order, Integer> {
 
-    @Query("SELECT o FROM Order o WHERE o.orderStatus NOT LIKE 'COMPLETED' ORDER BY o.orderStatus")
+    @Query("SELECT o FROM Order o ORDER BY o.orderDate DESC")
     List<Order> findAll();
+
+    @Query("SELECT o FROM Order o WHERE o.orderStatus = :status ORDER BY o.orderDate DESC")
+    List<Order> sortByStatus(OrderStatus status);
 
 }

@@ -35,7 +35,7 @@ public class OrderController {
     }
 
     @GetMapping("/show")
-    public String showAllOrders(Model model, @ModelAttribute("message")String message) {
+    public String showAllOrders(Model model, @ModelAttribute("message") String message) {
         return orderService.showAllOrders(model, message);
     }
 
@@ -49,5 +49,9 @@ public class OrderController {
         return orderService.showOneOrder(orderId, model, redirectAttributes);
     }
 
+    @GetMapping("/sort")
+    public String sortOrder(@RequestParam(name = "status") String status, Model model) {
+        return orderService.sortOrder(status, model);
+    }
 
 }

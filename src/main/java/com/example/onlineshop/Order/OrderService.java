@@ -6,6 +6,7 @@ import com.example.onlineshop.ShoppingCart.ShoppingCartRepository;
 import com.example.onlineshop.ShoppingCart.ShoppingCartService;
 import com.example.onlineshop.User.User;
 import com.example.onlineshop.User.UserRepository;
+import io.micrometer.common.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -100,9 +101,10 @@ public class OrderService {
                 break;
             case (2):
                 order.setOrderStatus(OrderStatus.DELIVERING);
+                break;
             case (3):
                 order.setOrderStatus(OrderStatus.COMPLETED);
-            default:
+                break;
         }
         orderRepository.save(order);
 
@@ -124,4 +126,14 @@ public class OrderService {
         model.addAttribute("order", order);
         return "order/show-one";
     }
+
+    public String sortOrder(String status, Model model) {
+
+        if(status == null || status.isEmpty() || status.equals("ALL")){
+            model.addAttribute("allOrders", orderRepository.findAll());
+        }
+        model.addAttribute("allOrders", orderRepository.sortByStatus(OrderStatus.valueOf(status)));
+        return "order/show-all";
+    }
+
 }

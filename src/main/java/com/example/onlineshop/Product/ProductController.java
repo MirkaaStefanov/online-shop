@@ -24,16 +24,17 @@ public class ProductController {
 
     @GetMapping("/add/food")
     public String foodForm(Model model) {
-        return  productService.foodForm(model);
+        return productService.foodForm(model);
     }
 
     @PostMapping("/submit/food")
     public String addFood(@Valid @ModelAttribute ProductDto productDto, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
-    return productService.addFood(productDto,bindingResult, redirectAttributes);
+        return productService.addFood(productDto, bindingResult, redirectAttributes);
     }
+
     @GetMapping("/add/drink")
     public String drinkForm(Model model) {
-     return productService.drinkForm(model);
+        return productService.drinkForm(model);
     }
 
     @PostMapping("/submit/drink")
@@ -63,7 +64,7 @@ public class ProductController {
 
     @GetMapping("/add/accessories")
     public String accessoriesForm(Model model) {
-        return  productService.accessoriesForm(model);
+        return productService.accessoriesForm(model);
     }
 
     @PostMapping("/submit/accessories")
@@ -78,7 +79,7 @@ public class ProductController {
 
     @PostMapping("/submit/others")
     public String addOthers(@Valid @ModelAttribute ProductDto productDto, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
-       return productService.addOthers(productDto, bindingResult, model, redirectAttributes);
+        return productService.addOthers(productDto, bindingResult, model, redirectAttributes);
     }
 
     @GetMapping("/filter")
@@ -90,26 +91,33 @@ public class ProductController {
         return productService.filterProducts(name, categoryId, minPrice, maxPrice, model);
     }
 
+    @GetMapping("/expirationDate")
+    public String sortByExpirationDate(Model model) {
+        return productService.sortByExpirationDate(model);
+    }
+
     @GetMapping("/search")
     public String search(@RequestParam(name = "search") String search, Model model) {
         return productService.search(search, model);
     }
 
     @GetMapping("/update")
-    public String update(@RequestParam(name = "productId") Integer productId, Model model){
+    public String update(@RequestParam(name = "productId") Integer productId, Model model) {
         return productService.update(productId, model);
     }
+
     @PostMapping("/submit/update")
-    public String submitUpdate(@Valid @ModelAttribute ProductDto productDto, @RequestParam(name="productId") Integer productId, BindingResult bindingResult, RedirectAttributes redirectAttributes){
-        return productService.submitUpdate(productDto, productId,bindingResult, redirectAttributes);
+    public String submitUpdate(@Valid @ModelAttribute ProductDto productDto, @RequestParam(name = "productId") Integer productId, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        return productService.submitUpdate(productDto, productId, bindingResult, redirectAttributes);
     }
+
     @PostMapping("/delete")
-    public String deleteProduct(@RequestParam(name = "productId") Integer productId, RedirectAttributes redirectAttributes){
+    public String deleteProduct(@RequestParam(name = "productId") Integer productId, RedirectAttributes redirectAttributes) {
         return productService.deleteProduct(productId, redirectAttributes);
     }
 
     @GetMapping("/outOfStock")
-    public String outOfStockProducts(Model model){
+    public String outOfStockProducts(Model model) {
         return productService.outOfStockProducts(model);
     }
 

@@ -11,6 +11,43 @@
             border-radius: 5px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
+     .filter-section {
+    background-color: rgba(0, 123, 255, 0.8); /* Син цвят с по-ниска стойност за прозрачност */
+    border: 1px solid #007bff;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+    width: 250px; /* Променете ширината според нуждите */
+    position: sticky;
+    top: 20px;
+    left: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+       .filter-section h2 {
+            color: #fff;
+            margin-bottom: 20px;
+            font-size: 1.25rem;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+           .header {
+          margin-bottom: 20px;
+    }
+ .form-group input[type="text"],
+       .form-group input[type="number"],
+       .form-group select {
+            width: 100%;
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #495057;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #ced4da;
+            border-radius: .25rem;
+            transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        }
     </style>
     <meta charset="UTF-8">
     <title>Show orders</title>
@@ -22,73 +59,105 @@
         }
     }, 3000);
 
+
     </script>
 </head>
 <body>
-<header th:insert="~{header.html}"></header>
+<header class="header" th:insert="~{header.html}"></header>
 
 <div th:if="${message != null and message != ''}" id="messageDiv" class="message-box">
     <p th:text="${message}"></p>
 </div>
 
-<div class="container text-center">
+<div class="container">
     <div class="row">
-        <div class="col">
+        <!-- Filter Section -->
+        <div class="col-md-3">
+            <div sec:authorize="hasAuthority('Employee')" class="filter-section">
+                <h2>Sort</h2>
+                <form action="#" th:action="@{/order/sort}" method="get">
 
+                    <div class="form-group">
+                        <label for="status">Category:</label>
+                        <select id="status" name="status" class="form-control">
+                            <option th:value="NEW" class="form-control">NEW</option>
+                            <option th:value="PROCESSING" class="form-control">PROCESSING</option>
+                            <option th:value="DELIVERING" class="form-control">DELIVERING</option>
+                            <option th:value="COMPLETED" class="form-control">COMPLETED</option>
+                        </select>
+                    </div>
+
+                    <button class="btn btn-outline-light" style="margin-top: 10px; " type="submit">Sort</button>
+                </form>
+                <form action="#" th:action="@{/order/show}" method="get" sec:authorize="hasAuthority('Employee')">
+                    <button class="btn btn-primary" style="margin-top: 10px;" type="submit">All orders</button>
+                </form>
+            </div>
         </div>
-        <div class="col">
+        <!-- Products Section -->
+        <div class="col-md-9"> <!-- 4/5 width on medium-sized screens and above -->
+            <div class="row row-cols-1  g-4">
+                <div class="container text-center">
+                    <div class="row">
+                        <div class="col">
 
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
+                        </div>
+                        <div class="col">
 
-        </div>
-        <div class="col">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
 
-            <table class="table">
-                <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Date</th>
-                    <th scope="col">Products</th>
-                    <th scope="col">Customer</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Status</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                <tr th:each="order : ${allOrders}">
-                    <th scope="row" th:text="${order.id}"/>
-                    <td th:text="${order.orderDate}"/>
-                    <td>
-                     <form action="#" th:action="@{/order/show-order}" method="get">
-                         <input type="hidden" name="orderId" th:value="${order.id}">
-                         <button class="btn btn-primary" type="submit">See</button>
-                     </form>
-                    </td>
-                    <td th:text="${order.user.username}"/>
-                    <td th:text="${order.price}"/>
-                    <td th:text="${order.orderStatus}"/>
-                    <td>
-                        <form action="#" th:action="@{/order/change-status}" method="post">
-                            <input type="hidden" name="orderId" th:value="${order.id}"/>
-                            <button class="btn btn-primary" type="submit">Change status</button>
-                        </form>
-                    </td>
-                </tr>
-                </tr>
+                        </div>
+                        <div class="col">
 
-                </tbody>
-            </table>
-        </div>
-        <div class="col">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Products</th>
+                                    <th scope="col">Customer</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Status</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                <tr th:each="order : ${allOrders}">
+                                    <th scope="row" th:text="${order.id}"/>
+                                    <td th:text="${order.orderDate}"/>
+                                    <td>
+                                        <form action="#" th:action="@{/order/show-order}" method="get">
+                                            <input type="hidden" name="orderId" th:value="${order.id}">
+                                            <button class="btn btn-primary" type="submit">See</button>
+                                        </form>
+                                    </td>
+                                    <td th:text="${order.user.username}"/>
+                                    <td th:text="${order.price}"/>
+                                    <td th:text="${order.orderStatus}"/>
+                                    <td>
+                                        <form action="#" th:action="@{/order/change-status}" method="post">
+                                            <input type="hidden" name="orderId" th:value="${order.id}"/>
+                                            <button class="btn btn-primary" type="submit">Change status</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                </tr>
 
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col">
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
 </div>
-
-
 </body>
 </html>

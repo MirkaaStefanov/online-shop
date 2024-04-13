@@ -154,7 +154,6 @@ public class ProductService {
         if (name == null) {
             name = "";
         }
-
         if (minPrice == null) {
             minPrice = (double) 0;
         }
@@ -173,6 +172,15 @@ public class ProductService {
         return "product/show";
 
 
+    }
+    public String sortByExpirationDate(Model model) {
+
+        List<Product> filteredProduct = productRepository.sortByExpirationDate();
+        model.addAttribute("products", filteredProduct);
+        model.addAttribute("categories", productTypeRepository.findAll());
+        model.addAttribute("addToCardDto", new AddToCardDto());
+
+        return "product/show";
     }
 
     public String search(String search, Model model) {
