@@ -18,7 +18,7 @@ public class IndexController {
     @Autowired
     private ProductTypeRepository productTypeRepository;
 
-    @GetMapping("/index.html")
+    @GetMapping("/")
     public String index(@ModelAttribute("message") String message, Model model) {
 
         model.addAttribute("products", productRepository.findAll());
@@ -27,7 +27,7 @@ public class IndexController {
 
         model.addAttribute("message", message);
 
-        return "index";
+        return "index.html";
     }
 
 
