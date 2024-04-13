@@ -18,8 +18,8 @@ public class IndexController {
     @Autowired
     private ProductTypeRepository productTypeRepository;
 
-    @GetMapping("/")
-    public String homeAllProducts(@ModelAttribute("message") String message, Model model) {
+    @GetMapping("/index.html")
+    public String index(@ModelAttribute("message") String message, Model model) {
 
         model.addAttribute("products", productRepository.findAll());
         model.addAttribute("addToCardDto", new AddToCardDto());
